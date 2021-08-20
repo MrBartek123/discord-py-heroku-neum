@@ -12,7 +12,7 @@ bot.remove_command("help")
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user.name}({bot.user.id})")
-    await bot.change_presence(activity=discord.Game(name="n!help | n!help links | Hello",))
+    await bot.change_presence(activity=discord.Game(name=f"n!help | n!help links | I am on {bot.guilds} servers",))
 
 @bot.command()
 async def ping(ctx):
@@ -79,10 +79,5 @@ async def changes(ctx):
   embed = discord.Embed(title="Neum Update Log", description=f"**Version: {version}**\n\n- Added `n!changes` command\n- Moved Neum to Heroku 24/7 Hosting")
   embed.set_footer(text="Neum - Neum Team | 2021")
   await ctx.send(embed=embed)
-@bot.command()
-async def membersList(ctx):
-  guild = ctx.guild.id
-  memberList = guild.members
-  await ctx.send(f"**{ctx.guild.name} members:**\n\n**{memberList}**")
 if __name__ == "__main__":
     bot.run(TOKEN)
