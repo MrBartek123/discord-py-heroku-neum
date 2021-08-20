@@ -26,11 +26,11 @@ async def help(ctx, page=None):
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
   elif page == "main":
-    embed = discord.Embed(title="Main Commands - Help", description="`n!help` - Shows all commands\n`n!ping` - Get Neum Latency")
+    embed = discord.Embed(title="Main Commands - Help", description="`n!help` - Shows all commands\n`n!ping` - Get Neum Latency\n`n!changes` - Show Neum Update Log")
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
   elif page == "links":
-    embed = discord.Embed(title="Neum Links", description="[Invite Neum](https://discord.com/api/oauth2/authorize?client_id=878259796145479741&permissions=8&redirect_uri=https%3A%2F%2Fdiscord.com%2Fapi%2Foauth2%2Fauthorize&scope=bot%20applications.commands)")
+    embed = discord.Embed(title="Neum Links", description="[Invite Neum](https://discord.com/api/oauth2/authorize?client_id=878259796145479741&permissions=8&redirect_uri=https%3A%2F%2Fdiscord.com%2Fapi%2Foauth2%2Fauthorize&scope=bot%20applications.commands)\n")
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
   elif page == "weather":
@@ -73,5 +73,10 @@ async def weather(ctx, *, city: str):
       await channel.send(embed=embed)
   else:
       await channel.send("City not found.")
+  @bot.command()
+  async def changes(ctx):
+    embed = discord.Embed(title="Neum Update Log", description="**Version: 1.0.13**\n\n- Added `n!changes` command\n- Moved Neum to Heroku 24/7 Hosting")
+    embed.set_footer(text="Neum - Neum Team | 2021")
+    await ctx.send(embed=embed)
 if __name__ == "__main__":
     bot.run(TOKEN)
