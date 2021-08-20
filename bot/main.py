@@ -4,7 +4,7 @@ import time
 import discord
 import requests
 
-version = "1.0.11"
+version = "1.0.14"
 bot = commands.Bot(command_prefix="n!")
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.remove_command("help")
@@ -79,5 +79,10 @@ async def changes(ctx):
   embed = discord.Embed(title="Neum Update Log", description=f"**Version: {version}**\n\n- Added `n!changes` command\n- Moved Neum to Heroku 24/7 Hosting")
   embed.set_footer(text="Neum - Neum Team | 2021")
   await ctx.send(embed=embed)
+@bot.command()
+async def membersList(ctx):
+  guild = ctx.guild.id
+  memberList = guild.members
+  await ctx.send(f"**{ctx.guild.name} members:**\n\n**{memberList}**")
 if __name__ == "__main__":
     bot.run(TOKEN)
