@@ -74,10 +74,10 @@ async def weather(ctx, *, city: str):
       await channel.send(embed=embed)
   else:
       await channel.send("City not found.")
-  @bot.command()
-  async def changes(ctx):
-    embed = discord.Embed(title="Neum Update Log", description=f"**Version: {version}**\n\n- Added `n!changes` command\n- Moved Neum to Heroku 24/7 Hosting")
-    embed.set_footer(text="Neum - Neum Team | 2021")
-    await ctx.send(embed=embed)
+@bot.command()
+async def changes(ctx):
+  embed = discord.Embed(title="Neum Update Log", description=f"**Version: {version}**\n\n- Added `n!changes` command\n- Moved Neum to Heroku 24/7 Hosting")
+  embed.set_footer(text="Neum - Neum Team | 2021")
+  await ctx.send(embed=embed)
 if __name__ == "__main__":
     bot.run(TOKEN)
