@@ -4,7 +4,7 @@ import time
 import discord
 import requests
 
-version = "1.0.16"
+version = "1.0.17"
 bot = commands.Bot(command_prefix="n!")
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.remove_command("help")
@@ -12,7 +12,7 @@ bot.remove_command("help")
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user.name}({bot.user.id})")
-    await bot.change_presence(activity=discord.Game(name=f"n!help | n!help links | I am on {bot.guilds} servers",))
+    await bot.change_presence(activity=discord.Game(name=f"n!help | n!help links"))
 
 @bot.command()
 async def ping(ctx):
@@ -23,7 +23,7 @@ async def ping(ctx):
 @bot.command()
 async def help(ctx, page=None):
   if page == None:
-    embed = discord.Embed(title="Help", description=":globe_with_meridians: - **Main Commands** `n!help main`\n:sunglasses: - **4Fun Commands** `n!help fun`\n:white_sun_cloud: - **Weather Commands** `n!help weather`\n:hammer: - **Neum Links** `n!help links`")
+    embed = discord.Embed(title="Help", description=":globe_with_meridians: - **Main Commands** `n!help main`\n:sunglasses: - **4Fun Commands** `n!help fun`\n:white_sun_cloud: - **Weather Commands** `n!help weather`\n:hammer: - **Neum Links** `n!help links`\n:sunglasses: - **Mods Command** `n!help mod`")
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
   elif page == "main":
@@ -40,6 +40,10 @@ async def help(ctx, page=None):
     await ctx.send(embed=embed)
   elif page == "fun":
     embed = discord.Embed(title="4Fun Commands - Help", description="`n!help` - Shows all commands\n`n!ping` - Get Neum Latency")
+    embed.set_footer(text="Neum - Neum Team | 2021")
+    await ctx.send(embed=embed)
+  elif page == "mod":
+    embed = discord.Embed(title="Mods Commands - Help", description="`n!embed <title> <description> <channel>` - Send new embed")
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
 @bot.command()
@@ -63,7 +67,6 @@ async def weather(ctx, *, city: str):
         current_humidity = y["humidity"]
         z = x["weather"]
         weather_description = z[0]["description"]
-        weather_title = z[0]["main"]
         embed = discord.Embed(title=f"Weather in {city_name}",
                           color=ctx.guild.me.top_role.color,
                           timestamp=ctx.message.created_at)
@@ -79,8 +82,14 @@ async def weather(ctx, *, city: str):
         await channel.send("City not found.")
 @bot.command()
 async def changes(ctx):
-  embed = discord.Embed(title="Neum Update Log", description=f"**Version: {version}**\n\n- Added `n!changes` command\n- Moved Neum to Heroku 24/7 Hosting")
+  embed = discord.Embed(title="Neum Update Log", description=f"**Version: {version}**\n\n- Added `n!embed` command")
   embed.set_footer(text="Neum - Neum Team | 2021")
   await ctx.send(embed=embed)
+@bot.command()
+async def embed(ctx, *, title: str, description: str, channel: str):
+  channel = discord.utils.get(ctx.guild.channels, name=channel)
+  channel_id = channel.id
+  embed = discord.Embed(title=title, description=description)
+  await channel_id.send(embed=embed)
 if __name__ == "__main__":
     bot.run(TOKEN)
