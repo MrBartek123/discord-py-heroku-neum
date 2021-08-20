@@ -4,7 +4,7 @@ import time
 import discord
 import requests
 
-version = "1.0.17"
+version = "1.0.18"
 bot = commands.Bot(command_prefix="n!")
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.remove_command("help")
@@ -23,7 +23,7 @@ async def ping(ctx):
 @bot.command()
 async def help(ctx, page=None):
   if page == None:
-    embed = discord.Embed(title="Help", description=":globe_with_meridians: - **Main Commands** `n!help main`\n:sunglasses: - **4Fun Commands** `n!help fun`\n:white_sun_cloud: - **Weather Commands** `n!help weather`\n:hammer: - **Neum Links** `n!help links`\n:sunglasses: - **Mods Command** `n!help mod`")
+    embed = discord.Embed(title="Help", description=":globe_with_meridians: - **Main Commands** `n!help main`\n:sunglasses: - **4Fun Commands** `n!help fun`\n:white_sun_cloud: - **Weather Commands** `n!help weather`\n:hammer: - **Neum Links** `n!help links`\n:construction_worker: - **Mods Command** `n!help mod`")
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
   elif page == "main":
@@ -86,7 +86,7 @@ async def changes(ctx):
   embed.set_footer(text="Neum - Neum Team | 2021")
   await ctx.send(embed=embed)
 @bot.command()
-async def embed(ctx, *, title: str, description: str, channel: str):
+async def embed(ctx, title: str, description: str, channel: str):
   channel = discord.utils.get(ctx.guild.channels, name=channel)
   channel_id = channel.id
   embed = discord.Embed(title=title, description=description)
