@@ -8,8 +8,10 @@ from discord_slash.utils.manage_components import create_button, create_actionro
 from discord_slash.model import ButtonStyle
 from discord.utils import get
 from discord.ext.commands import has_permissions
+from replit import db
 
-version = "1.0.33"
+
+version = "1.0.34"
 bot = commands.Bot(command_prefix="n!")
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.remove_command("help")
@@ -142,6 +144,14 @@ async def rbicon(ctx, placeId):
   embed = discord.Embed(title=f"Roblox Game Icon for {pName}")
   embed.set_thumbnail(url=icon)
   await ctx.send(embed=embed)
+@bot.command()
+async def teamAdd(ctx, member: discord.Member, *, role):
+  if ctx.author.id == "772426697647063051":
+    ctx.send(f"<a:yes:878700406048432238>| Added {member.name} to Neum Team!")
+    db[member.name] = role
+@bot.command()
+async def team(ctx, member: discord.Member):
+  await ctx.send(f"User {member.name} is a {db[member.name]}")
 @bot.command()
 @has_permissions(kick_members=True) 
 async def warn(ctx, member: discord.Member, *, reason):
