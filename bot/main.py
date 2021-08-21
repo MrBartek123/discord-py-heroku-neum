@@ -167,7 +167,7 @@ async def rbinfo(ctx, placeId):
   embed = discord.Embed(title=f"{pName} Informations")
   embed.add_field(name="Title", value=f"{pName}")
   embed.add_field(name="Description", value=f"{pDesc}")
-  embed.add_field(name="Creator", value=f"{cName0.}")
+  embed.add_field(name="Creator", value=f"{cName}")
   embed.add_field(name="Visits", value=f"{pDesc}")
   embed.set_thumbnail(url=icon)
   await ctx.send(embed=embed)
