@@ -7,7 +7,7 @@ from discord_slash import SlashCommand
 from discord_slash.utils.manage_components import create_button, create_actionrow
 from discord_slash.model import ButtonStyle
 
-version = "1.0.24"
+version = "1.0.25"
 bot = commands.Bot(command_prefix="n!")
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.remove_command("help")
@@ -30,7 +30,7 @@ async def help(ctx, page=None):
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
   elif page == "roblox":
-    embed = discord.Embed(title="Roblox Commands - Help", description="`n!rbicon <placeId>` - Get Roblox Place Icon\n`n!ping` - Get Neum Latency\n`n!changes` - Show Neum Update Log")
+    embed = discord.Embed(title="Roblox Commands - Help", description="`n!rbicon <placeId>` - Get Roblox Place Icon\n`n!rbinfo <placeId>` - Get Roblox Place Info")
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
   elif page == "main":
