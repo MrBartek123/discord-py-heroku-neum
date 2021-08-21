@@ -11,7 +11,7 @@ from discord.ext.commands import has_permissions
 from replit import db
 
 
-version = "1.0.34"
+version = "1.0.35"
 bot = commands.Bot(command_prefix="n!")
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.remove_command("help")
@@ -145,13 +145,9 @@ async def rbicon(ctx, placeId):
   embed.set_thumbnail(url=icon)
   await ctx.send(embed=embed)
 @bot.command()
-async def teamAdd(ctx, member: discord.Member, *, role):
+async def githubRep(ctx):
   if ctx.author.id == "772426697647063051":
-    ctx.send(f"<a:yes:878700406048432238>| Added {member.name} to Neum Team!")
-    db[member.name] = role
-@bot.command()
-async def team(ctx, member: discord.Member):
-  await ctx.send(f"User {member.name} is a {db[member.name]}")
+    await ctx.send("[Neum Github Repo](https://github.com/MrBartek123/discord-py-heroku-neum/blob/master/bot/main.py)")
 @bot.command()
 @has_permissions(kick_members=True) 
 async def warn(ctx, member: discord.Member, *, reason):
