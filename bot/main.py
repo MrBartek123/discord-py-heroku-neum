@@ -119,7 +119,7 @@ async def embedee(ctx, title: str, description: str, channel: str):
 @bot.command()
 async def rbicon(ctx, placeId):
   universe_url = f"https://api.roblox.com/universes/get-universe-containing-place?placeid={placeId}"
-  complete_url = f"https://thumbnails.roblox.com/v1/places/gameicons?placeIds={placeId}&returnPolicy=PlaceHolder&size=150x150&format=Png&isCircular=false"
+  complete_url = f"https://thumbnails.roblox.com/v1/places/gameicons?placeIds={placeId}&returnPolicy=PlaceHolder&size=512x512&format=Png&isCircular=false"
   response = requests.get(complete_url)
   universeRes = requests.get(universe_url)
   u = universeRes.json()
@@ -140,6 +140,36 @@ async def rbicon(ctx, placeId):
   embed = discord.Embed(title=f"Roblox Game Icon for {pName}")
   embed.set_thumbnail(url=icon)
   await ctx.send(embed=embed)
-  
+@bot.command()
+async def rbinfo(ctx, placeId):
+  universe_url = f"https://api.roblox.com/universes/get-universe-containing-place?placeid={placeId}"
+  complete_url = f"https://thumbnails.roblox.com/v1/places/gameicons?placeIds={placeId}&returnPolicy=PlaceHolder&size=512x512&format=Png&isCircular=false"
+  response = requests.get(complete_url)
+  universeRes = requests.get(universe_url)
+  u = universeRes.json()
+  x = response.json()
+
+  uData = u["UniverseId"]
+
+  placeURL = f"https://games.roblox.com/v1/games?universeIds={uData}"
+  placeRes = requests.get(placeURL)
+  placeData = placeRes.json()
+
+  pData = placeData["data"]
+  pCreator = pData["creator"]
+  cName = pCreator[0]["name"]
+  pName = pData[0]["name"]
+  pDesc = pData[0]["description"]
+
+  iconD = x["data"]
+  icon = iconD[0]["imageUrl"]
+
+  embed = discord.Embed(title=f"{pName} Informations")
+  embed.add_field(name="Title", value=f"{pName}")
+  embed.add_field(name="Description", value=f"{pDesc}")
+  embed.add_field(name="Creator", value=f"{cName0.}")
+  embed.add_field(name="Visits", value=f"{pDesc}")
+  embed.set_thumbnail(url=icon)
+  await ctx.send(embed=embed)
 if __name__ == "__main__":
     bot.run(TOKEN)
