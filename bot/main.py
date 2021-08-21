@@ -8,7 +8,7 @@ from discord_slash.utils.manage_components import create_button, create_actionro
 from discord_slash.model import ButtonStyle
 from discord.utils import get
 
-version = "1.0.31"
+version = "1.0.32"
 bot = commands.Bot(command_prefix="n!")
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.remove_command("help")
@@ -171,7 +171,7 @@ async def rbinfo(ctx, placeId):
   embed.set_thumbnail(url=icon)
   await ctx.send(embed=embed)
 @bot.command()
-async def nickname(ctx, member: discord.Member, nick: None):
+async def nickname(ctx, member: discord.Member, nick=None):
     await member.edit(nick=nick)
     await ctx.send(f'<a:yes:878700406048432238> | Nickname was changed for {member.mention}')
 
