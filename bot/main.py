@@ -30,11 +30,11 @@ async def help(ctx, page=None):
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
   elif page == "roblox":
-    embed = discord.Embed(title="Roblox Commands - Help", description="`n!rbicon <placeId>` - Get Roblox Place Icon\n`n!rbinfo <placeId>` - Get Roblox Place Info")
+    embed = discord.Embed(title="Roblox Commands - Help", description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!rbicon <placeId>` - Get Roblox Place Icon\n`n!rbinfo <placeId>` - Get Roblox Place Info")
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
   elif page == "main":
-    embed = discord.Embed(title="Main Commands - Help", description="`n!help` - Shows all commands\n`n!ping` - Get Neum Latency\n`n!changes` - Show Neum Update Log")
+    embed = discord.Embed(title="Main Commands - Help", description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!help` - Shows all commands\n`n!ping` - Get Neum Latency\n`n!changes` - Show Neum Update Log\n`n!nickname [member] <nickname>` - Set new nickname to member")
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
   elif page == "links":
@@ -42,19 +42,19 @@ async def help(ctx, page=None):
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
   elif page == "weather":
-    embed = discord.Embed(title="Weatcher Commands - Help", description="`n!weather <city>` - Shows city current weather | **WARNING:** You can't use a city (for example) called 'Chodzież' insted this just use 'Chodziez'")
+    embed = discord.Embed(title="Weatcher Commands - Help", description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!weather <city>` - Shows city current weather | **WARNING:** You can't use a city (for example) called 'Chodzież' insted this just use 'Chodziez'")
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
   elif page == "fun":
-    embed = discord.Embed(title="4Fun Commands - Help", description="`n!help` - Shows all commands\n`n!ping` - Get Neum Latency")
+    embed = discord.Embed(title="4Fun Commands - Help", description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!help` - Shows all commands\n`n!ping` - Get Neum Latency")
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
   elif page == "mod":
-    embed = discord.Embed(title="Mods Commands - Help", description="`n!embed <title> <description> <channel>` - Send new embed")
+    embed = discord.Embed(title="Mods Commands - Help", description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!embed <title> <description> <channel>` - Send new embed")
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
 @bot.command()
-async def weather(ctx, *, city: str):
+async def weather(ctx, *, city=None):
   if city == None:
     await ctx.send("Please enter city name")
   else:
@@ -169,5 +169,9 @@ async def rbinfo(ctx, placeId):
   embed.add_field(name="Visits", value=f"{pVisits}")
   embed.set_thumbnail(url=icon)
   await ctx.send(embed=embed)
+@bot.command()
+async def nickname(ctx, member: discord.Member, nick):
+    await member.edit(nick=nick)
+    await ctx.send(f':white_check_mark: Nickname was changed for {member.mention} :white_check_mark:')
 if __name__ == "__main__":
     bot.run(TOKEN)
