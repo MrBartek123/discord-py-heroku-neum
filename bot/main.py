@@ -7,8 +7,9 @@ from discord_slash import SlashCommand
 from discord_slash.utils.manage_components import create_button, create_actionrow
 from discord_slash.model import ButtonStyle
 from discord.utils import get
+from discord.ext.commands import has_permissions
 
-version = "1.0.32"
+version = "1.0.33"
 bot = commands.Bot(command_prefix="n!")
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.remove_command("help")
@@ -142,6 +143,12 @@ async def rbicon(ctx, placeId):
   embed.set_thumbnail(url=icon)
   await ctx.send(embed=embed)
 @bot.command()
+@has_permissions(kick_members=True) 
+async def warn(ctx, member: discord.Member, *, reason):
+  channel = await member.create_dm()
+  await channel.send(f"Warning from {ctx.guild.name}:\nModerator: {ctx.author.mention}\nReason: {reason}")
+  await ctx.send(f"<a:yes:878700406048432238>| Warned {member}")
+@bot.command()
 async def rbinfo(ctx, placeId):
   universe_url = f"https://api.roblox.com/universes/get-universe-containing-place?placeid={placeId}"
   complete_url = f"https://thumbnails.roblox.com/v1/places/gameicons?placeIds={placeId}&returnPolicy=PlaceHolder&size=512x512&format=Png&isCircular=false"
@@ -176,7 +183,7 @@ async def nickname(ctx, member: discord.Member, nick=None):
     await ctx.send(f'<a:yes:878700406048432238> | Nickname was changed for {member.mention}')
 
 @commands.command()
-@commands.has_permissions(kick_members=True)
+@has_permissions(kick_members=True)
 async def kick(self, ctx, member: discord.Member, *, reason=None):
   if reason == None:
     reason = "no reason ¯\_(ツ)_/¯"
@@ -187,7 +194,7 @@ async def kick(self, ctx, member: discord.Member, *, reason=None):
     await ctx.send(f'<a:yes:878700406048432238> | User {member} has been kick! Reason: {reason}')
 
 @commands.command()
-@commands.has_permissions(administrator=True)
+@has_permissions(administrator=True)
 async def unban(self, ctx, *, member):
 
   banned_users = await ctx.guild.bans()
@@ -202,26 +209,26 @@ async def unban(self, ctx, *, member):
       return
 
 @commands.command()
-@commands.has_permissions(ban_members=True)
+@has_permissions(ban_members=True)
 async def ban(self, ctx, member: discord.Member, *, reason=None):
   await member.ban(reason=reason)
-  await ctx.send(f'<a:yes:878700406048432238> | User {member} has been kick')
+  await ctx.send(f'<a:yes:878700406048432238>| User {member} has been kick')
 @commands.command()
-@commands.has_permissions(manage_roles=True)
+@has_permissions(manage_roles=True)
 async def muteRole(ctx):
   if get(ctx.guild.roles, name="Muted"):
     await ctx.send("<a:no:878699746984878111>| Role 'Muted' already exists")
   else:
 
     await ctx.guild.create_role(name="Muted", colour=discord.Colour(0x0062ff))
-    await ctx.send("<a:yes:878700406048432238> | Created role 'Muted'!")
+    await ctx.send("<a:yes:878700406048432238>| Created role 'Muted'!")
     permissions = discord.Permissions(send_messages=False, read_messages=True)
     permissions.update(kick_members = False)
     for role in ctx.guild.roles:
       if role.name == "Muted":
         await role.edit(reason = None, colour = discord.Colour.blue(), permissions=permissions)
 @commands.command()
-@commands.has_permissions(manage_roles=True)
+@has_permissions(manage_roles=True)
 async def mute(ctx, member):
   if get(ctx.guild.roles, name="Muted"):
     await ctx.send("<a:no:878699746984878111>| Role 'Muted' not found, please run `n!muteRole` to create Muted Role")
@@ -230,7 +237,7 @@ async def mute(ctx, member):
     await member.add_roles(role)
     await ctx.send(f"<a:yes:878700406048432238> | Muted {member.mention}!")
 @commands.command()
-@commands.has_permissions(manage_roles=True)
+@has_permissions(manage_roles=True)
 async def unmute(ctx, member):
   if get(ctx.guild.roles, name="Muted"):
     await ctx.send("<a:no:878699746984878111>| Role 'Muted' not found, please run `n!muteRole` to create Muted Role")
