@@ -6,8 +6,9 @@ import requests
 from discord_slash import SlashCommand
 from discord_slash.utils.manage_components import create_button, create_actionrow
 from discord_slash.model import ButtonStyle
+from discord.utils import get
 
-version = "1.0.28"
+version = "1.0.30"
 bot = commands.Bot(command_prefix="n!")
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.remove_command("help")
@@ -50,7 +51,7 @@ async def help(ctx, page=None):
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
   elif page == "mod":
-    embed = discord.Embed(title="Mods Commands - Help", description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!embed <title> <description> <channel>` - Send new embed")
+    embed = discord.Embed(title="Mods Commands - Help", description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!ban <member> <reason>` - Bans member from this server\n`n!kick <member> <reason>` - Kick member from this server\n`n!unban <member>` - Unbans member from this server\n`n!mute <member>` - Mute member\n`n!unmute <member>`")
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
 @bot.command()
@@ -170,8 +171,67 @@ async def rbinfo(ctx, placeId):
   embed.set_thumbnail(url=icon)
   await ctx.send(embed=embed)
 @bot.command()
-async def nickname(ctx, member: discord.Member, nick):
+async def nickname(ctx, member: discord.Member, nick: None):
     await member.edit(nick=nick)
-    await ctx.send(f':white_check_mark: Nickname was changed for {member.mention} :white_check_mark:')
+    await ctx.send(f'<a:yes:878700406048432238> | Nickname was changed for {member.mention}')
+@commands.command()
+@commands.has_permissions(kick_members=True)
+async def kick(self, ctx, member: discord.Member, *, reason=None):
+  if reason == None:
+    reason = "no reason ¯\_(ツ)_/¯"
+    await member.kick(reason=reason)
+    await ctx.send(f'<a:yes:878700406048432238> | User {member} has been kick for {reason}')
+  else:
+    await member.kick(reason=reason)
+    await ctx.send(f'<a:yes:878700406048432238> | User {member} has been kick! Reason: {reason}')
+@commands.command()
+@commands.has_permissions(administrator=True)
+async def unban(self, ctx, *, member):
+    banned_users = await ctx.guild.bans()
+    member_name, member_discriminator = member.split("#")
+
+    for ban_entry in banned_users:
+        user = ban_entry.user
+
+        if (user.name, user.discriminator) == (member_name, member_discriminator):
+            await ctx.guild.unban(user)
+            await ctx.send(f'<a:yes:878700406048432238> | Unbanned {user.mention}')
+            return
+@commands.command()
+@commands.has_permissions(ban_members=True)
+async def ban(self, ctx, member: discord.Member, *, reason=None):
+    await member.ban(reason=reason)
+    await ctx.send(f'<a:yes:878700406048432238> | User {member} has been kick')
+@commands.command()
+@commands.has_permissions(manage_roles=True)
+async def muteRole(ctx):
+  if get(ctx.guild.roles, name="Muted"):
+        await ctx.send("<a:no:878699746984878111>| Role 'Muted' already exists")
+  else:
+      await ctx.guild.create_role(name="Muted", colour=discord.Colour(0x0062ff))
+      await ctx.send("<a:yes:878700406048432238> | Created role 'Muted'!")
+      permissions = discord.Permissions(send_messages=False, read_messages=True)
+      permissions.update(kick_members = False)
+      for role in ctx.guild.roles:
+        if role.name == "Muted":
+          await role.edit(reason = None, colour = discord.Colour.blue(), permissions=permissions)
+@commands.command()
+@commands.has_permissions(manage_roles=True)
+async def mute(ctx, member):
+  if get(ctx.guild.roles, name="Muted"):
+    await ctx.send("<a:no:878699746984878111>| Role 'Muted' not found, please run `n!muteRole` to create Muted Role")
+  else:
+    role = get(lambda role: role.name == "Muted", ctx.guild.roles)
+    await member.add_roles(role)
+    await ctx.send(f"<a:yes:878700406048432238> | Muted {member.mention}!")
+@commands.command()
+@commands.has_permissions(manage_roles=True)
+async def unmute(ctx, member):
+  if get(ctx.guild.roles, name="Muted"):
+    await ctx.send("<a:no:878699746984878111>| Role 'Muted' not found, please run `n!muteRole` to create Muted Role")
+  else:
+    role = get(lambda role: role.name == "Muted", ctx.guild.roles)
+    await member.remove_roles(role)
+    await ctx.send(f"<a:yes:878700406048432238> | Unmuted {member.mention}!")
 if __name__ == "__main__":
     bot.run(TOKEN)
