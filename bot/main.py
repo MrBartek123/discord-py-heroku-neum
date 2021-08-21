@@ -7,7 +7,7 @@ from discord_slash import SlashCommand
 from discord_slash.utils.manage_components import create_button, create_actionrow
 from discord_slash.model import ButtonStyle
 
-version = "1.0.25"
+version = "1.0.28"
 bot = commands.Bot(command_prefix="n!")
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.remove_command("help")
@@ -156,10 +156,9 @@ async def rbinfo(ctx, placeId):
   placeData = placeRes.json()
 
   pData = placeData["data"]
-  pCreator = pData[0]["creator"]
-  cName = pCreator[0]["name"]
   pName = pData[0]["name"]
   pDesc = pData[0]["description"]
+  pVisits = pData[0]["visits"]
 
   iconD = x["data"]
   icon = iconD[0]["imageUrl"]
@@ -167,8 +166,7 @@ async def rbinfo(ctx, placeId):
   embed = discord.Embed(title=f"{pName} Informations")
   embed.add_field(name="Title", value=f"{pName}")
   embed.add_field(name="Description", value=f"{pDesc}")
-  embed.add_field(name="Creator", value=f"{cName}")
-  embed.add_field(name="Visits", value=f"{pDesc}")
+  embed.add_field(name="Visits", value=f"{pVisits}")
   embed.set_thumbnail(url=icon)
   await ctx.send(embed=embed)
 if __name__ == "__main__":
