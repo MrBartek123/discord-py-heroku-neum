@@ -156,7 +156,7 @@ async def rbinfo(ctx, placeId):
   placeData = placeRes.json()
 
   pData = placeData["data"]
-  pCreator = pData["creator"]
+  pCreator = pData[0]["creator"]
   cName = pCreator[0]["name"]
   pName = pData[0]["name"]
   pDesc = pData[0]["description"]
