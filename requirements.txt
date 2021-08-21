@@ -1,4 +1,4 @@
 discord.py
 discord
 requests
-discord-py-slash-commmand
+discord-py-slash-command
