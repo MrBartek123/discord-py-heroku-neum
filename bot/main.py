@@ -7,7 +7,7 @@ from discord_slash import SlashCommand
 from discord_slash.utils.manage_components import create_button, create_actionrow
 from discord_slash.model import ButtonStyle
 
-version = "1.0.20"
+version = "1.0.22"
 bot = commands.Bot(command_prefix="n!")
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.remove_command("help")
@@ -78,7 +78,7 @@ async def weather(ctx, *, city: str):
         current_humidity = y["humidity"]
         z = x["weather"]
         weather_description = z[0]["description"]
-        embed = discord.Embed(title=f"Weather in {city_name} - {flagEmoji}({flag})",
+        embed = discord.Embed(title=f"Weather in {city_name} ({flagEmoji}{flag})",
                           color=ctx.guild.me.top_role.color,
                           timestamp=ctx.message.created_at)
         embed.add_field(name="Weather Name", value=f"{z[0]['main']}", inline=False)
