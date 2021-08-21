@@ -132,10 +132,10 @@ async def rbicon(ctx, placeId):
   placeData = placeRes.json()
 
   pData = placeData["data"]
-  pName = pData["name"]
+  pName = pData[0]["name"]
 
   iconD = x["data"]
-  icon = iconD["imageUrl"]
+  icon = iconD[0]["imageUrl"]
 
   embed = discord.Embed(title=f"Roblox Game Icon for {pName}")
   embed.set_thumbnail(url=icon)
