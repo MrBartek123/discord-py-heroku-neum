@@ -174,6 +174,7 @@ async def rbinfo(ctx, placeId):
 async def nickname(ctx, member: discord.Member, nick: None):
     await member.edit(nick=nick)
     await ctx.send(f'<a:yes:878700406048432238> | Nickname was changed for {member.mention}')
+
 @commands.command()
 @commands.has_permissions(kick_members=True)
 async def kick(self, ctx, member: discord.Member, *, reason=None):
@@ -184,37 +185,41 @@ async def kick(self, ctx, member: discord.Member, *, reason=None):
   else:
     await member.kick(reason=reason)
     await ctx.send(f'<a:yes:878700406048432238> | User {member} has been kick! Reason: {reason}')
+
 @commands.command()
 @commands.has_permissions(administrator=True)
 async def unban(self, ctx, *, member):
-    banned_users = await ctx.guild.bans()
-    member_name, member_discriminator = member.split("#")
 
-    for ban_entry in banned_users:
-        user = ban_entry.user
+  banned_users = await ctx.guild.bans()
+  member_name, member_discriminator = member.split("#")
 
-        if (user.name, user.discriminator) == (member_name, member_discriminator):
-            await ctx.guild.unban(user)
-            await ctx.send(f'<a:yes:878700406048432238> | Unbanned {user.mention}')
-            return
+  for ban_entry in banned_users:
+    user = ban_entry.user
+
+    if (user.name, user.discriminator) == (member_name, member_discriminator):
+      await ctx.guild.unban(user)
+      await ctx.send(f'<a:yes:878700406048432238> | Unbanned {user.mention}')
+      return
+
 @commands.command()
 @commands.has_permissions(ban_members=True)
 async def ban(self, ctx, member: discord.Member, *, reason=None):
-    await member.ban(reason=reason)
-    await ctx.send(f'<a:yes:878700406048432238> | User {member} has been kick')
+  await member.ban(reason=reason)
+  await ctx.send(f'<a:yes:878700406048432238> | User {member} has been kick')
 @commands.command()
 @commands.has_permissions(manage_roles=True)
 async def muteRole(ctx):
   if get(ctx.guild.roles, name="Muted"):
-        await ctx.send("<a:no:878699746984878111>| Role 'Muted' already exists")
+    await ctx.send("<a:no:878699746984878111>| Role 'Muted' already exists")
   else:
-      await ctx.guild.create_role(name="Muted", colour=discord.Colour(0x0062ff))
-      await ctx.send("<a:yes:878700406048432238> | Created role 'Muted'!")
-      permissions = discord.Permissions(send_messages=False, read_messages=True)
-      permissions.update(kick_members = False)
-      for role in ctx.guild.roles:
-        if role.name == "Muted":
-          await role.edit(reason = None, colour = discord.Colour.blue(), permissions=permissions)
+
+    await ctx.guild.create_role(name="Muted", colour=discord.Colour(0x0062ff))
+    await ctx.send("<a:yes:878700406048432238> | Created role 'Muted'!")
+    permissions = discord.Permissions(send_messages=False, read_messages=True)
+    permissions.update(kick_members = False)
+    for role in ctx.guild.roles:
+      if role.name == "Muted":
+        await role.edit(reason = None, colour = discord.Colour.blue(), permissions=permissions)
 @commands.command()
 @commands.has_permissions(manage_roles=True)
 async def mute(ctx, member):
@@ -233,5 +238,6 @@ async def unmute(ctx, member):
     role = get(lambda role: role.name == "Muted", ctx.guild.roles)
     await member.remove_roles(role)
     await ctx.send(f"<a:yes:878700406048432238> | Unmuted {member.mention}!")
+
 if __name__ == "__main__":
     bot.run(TOKEN)
