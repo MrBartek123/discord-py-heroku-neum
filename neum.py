@@ -166,9 +166,8 @@ async def rbicon(ctx, placeId):
 
 @botM.command()
 async def githubRep(ctx):
-    if ctx.author.id == "772426697647063051":
-        await ctx.send(
-            "[Neum Github Repo](https://github.com/MrBartek123/discord-py-heroku-neum/blob/master/botM/main.py)")
+    await ctx.send(
+        "[Neum Github Repo](https://github.com/MrBartek123/discord-py-heroku-neum/blob/master/botM/main.py)")
 
 
 @botM.command()
