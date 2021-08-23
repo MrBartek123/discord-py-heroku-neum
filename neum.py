@@ -198,16 +198,25 @@ async def rbinfo(ctx, placeId):
     pName = pData[0]["name"]
     pDesc = pData[0]["description"]
     pVisits = pData[0]["visits"]
-
+    pPlaying = pData[0]['playing']
+    pId = pData[0]["rootPlaceId"]
+    
     iconD = x["data"]
     icon = iconD[0]["imageUrl"]
 
-    embed = discord.Embed(title=f"{pName} Informations")
-    embed.add_field(name="Title", value=f"{pName}")
-    embed.add_field(name="Description", value=f"{pDesc}")
+    embed = discord.Embed(title=f"{pName}", description=f"{pDesc}")
     embed.add_field(name="Visits", value=f"{pVisits}")
+    embed.add_field(name="Playing", value=f"{pPlaying}")
     embed.set_thumbnail(url=icon)
-    await ctx.send(embed=embed)
+    buttons = [
+        create_button(
+            style=ButtonStyle.URL,
+            label=f"Play {pName}",
+            url=f"https://www.roblox.com/games/{pId}/"
+        ),
+    ]
+    action_row = create_actionrow(*buttons)
+    await ctx.send(embed=embed, components=[action_row])
 
 
 @botM.command()
@@ -296,7 +305,7 @@ async def unmute(ctx, member):
 
 ## ECONOMY
 @botM.command()
-async def balance(ctx, member: discord.Member):
+async def balance(ctx, member=None):
     await ctx.send(f":coin: | {Money.balance(member)}")
 @botM.command()
 async def work(ctx):
