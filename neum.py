@@ -300,6 +300,6 @@ async def balance(ctx, member: discord.Member):
     await ctx.send(f":coin: | {Money.balance(member)}")
 @botM.command()
 async def work(ctx):
-    await ctx.send(f":coin: | You made {Money.work(ctx.author.name)}")
+    await ctx.send(f":coin: | You made {Money.work(ctx.author)}")
 if __name__ == "__main__":
     botM.run(TOKEN)
