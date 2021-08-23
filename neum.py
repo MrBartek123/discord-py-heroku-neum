@@ -9,6 +9,7 @@ from discord_slash.model import ButtonStyle
 from discord.utils import get
 from discord.ext.commands import has_permissions
 from currencyAPI import commands as Money
+import humanize
 
 version = "1.0.42"
 botM = commands.Bot(command_prefix="n!")
@@ -202,10 +203,11 @@ async def rbinfo(ctx, placeId):
     
     iconD = x["data"]
     icon = iconD[0]["imageUrl"]
+    
 
     embed = discord.Embed(title=f"{pName}", description=f"{pDesc}")
-    embed.add_field(name="Visits", value=f"{pVisits}")
-    embed.add_field(name="Playing", value=f"{pPlaying}")
+    embed.add_field(name="Visits", value=f"{humanize.intword(pVisits)}")
+    embed.add_field(name="Playing", value=f"{humanize.intword(pPlaying)}")
     embed.set_thumbnail(url=icon)
     buttons = [
         create_button(

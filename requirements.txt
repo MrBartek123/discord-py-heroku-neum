@@ -4,3 +4,4 @@ discord-py-slash-command
 discord
 psycopg2
 pickledb
+humanize
