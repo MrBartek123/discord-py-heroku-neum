@@ -1,7 +1,8 @@
 import os
 import time
 import discord
-from discord.ext import bot
+from discord import ext
+from ext import bot
 import requests
 from discord_slash import SlashCommand
 from discord_slash.utils.manage_components import create_button, create_actionrow
