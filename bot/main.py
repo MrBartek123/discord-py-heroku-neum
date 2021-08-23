@@ -1,5 +1,5 @@
 import os
-from discord.ext import commands
+from discord.ext import bot
 import time
 import discord
 import requests
@@ -7,12 +7,12 @@ from discord_slash import SlashCommand
 from discord_slash.utils.manage_components import create_button, create_actionrow
 from discord_slash.model import ButtonStyle
 from discord.utils import get
-from discord.ext.commands import has_permissions
+from discord.ext.bot import has_permissions
 from replit import db
 
 
-version = "1.0.35"
-bot = commands.Bot(command_prefix="n!")
+version = "1.0.36"
+bot = bot.Bot(command_prefix="n!")
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.remove_command("help")
 
@@ -30,31 +30,31 @@ async def ping(ctx):
 @bot.command()
 async def help(ctx, page=None):
   if page == None:
-    embed = discord.Embed(title="Help", description=":globe_with_meridians: - **Main Commands** `n!help main`\n:sunglasses: - **4Fun Commands** `n!help fun`\n:white_sun_cloud: - **Weather Commands** `n!help weather`\n:hammer: - **Neum Links** `n!help links`\n:construction_worker: - Mods Command `n!help mods`\n:video_game: - Roblox Commands `n!help roblox`")
+    embed = discord.Embed(title="Help", description=":globe_with_meridians: - **Main bot** `n!help main`\n:sunglasses: - **4Fun bot** `n!help fun`\n:white_sun_cloud: - **Weather bot** `n!help weather`\n:hammer: - **Neum Links** `n!help links`\n:construction_worker: - Mods Command `n!help mods`\n:video_game: - Roblox bot `n!help roblox`")
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
   elif page == "roblox":
-    embed = discord.Embed(title="Roblox Commands - Help", description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!rbicon <placeId>` - Get Roblox Place Icon\n`n!rbinfo <placeId>` - Get Roblox Place Info")
+    embed = discord.Embed(title="Roblox bot - Help", description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!rbicon <placeId>` - Get Roblox Place Icon\n`n!rbinfo <placeId>` - Get Roblox Place Info")
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
   elif page == "main":
-    embed = discord.Embed(title="Main Commands - Help", description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!help` - Shows all commands\n`n!ping` - Get Neum Latency\n`n!changes` - Show Neum Update Log\n`n!nickname [member] <nickname>` - Set new nickname to member")
+    embed = discord.Embed(title="Main bot - Help", description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!help` - Shows all bot\n`n!ping` - Get Neum Latency\n`n!changes` - Show Neum Update Log\n`n!nickname [member] <nickname>` - Set new nickname to member")
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
   elif page == "links":
-    embed = discord.Embed(title="Neum Links", description="[Invite Neum](https://discord.com/api/oauth2/authorize?client_id=878259796145479741&permissions=8&redirect_uri=https%3A%2F%2Fdiscord.com%2Fapi%2Foauth2%2Fauthorize&scope=bot%20applications.commands)\n")
+    embed = discord.Embed(title="Neum Links", description="[Invite Neum](https://discord.com/api/oauth2/authorize?client_id=878259796145479741&permissions=8&redirect_uri=https%3A%2F%2Fdiscord.com%2Fapi%2Foauth2%2Fauthorize&scope=bot%20applications.bot)\n")
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
   elif page == "weather":
-    embed = discord.Embed(title="Weatcher Commands - Help", description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!weather <city>` - Shows city current weather | **WARNING:** You can't use a city (for example) called 'Chodzież' insted this just use 'Chodziez'")
+    embed = discord.Embed(title="Weatcher bot - Help", description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!weather <city>` - Shows city current weather | **WARNING:** You can't use a city (for example) called 'Chodzież' insted this just use 'Chodziez'")
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
   elif page == "fun":
-    embed = discord.Embed(title="4Fun Commands - Help", description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!help` - Shows all commands\n`n!ping` - Get Neum Latency")
+    embed = discord.Embed(title="4Fun bot - Help", description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!help` - Shows all bot\n`n!ping` - Get Neum Latency")
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
   elif page == "mod":
-    embed = discord.Embed(title="Mods Commands - Help", description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!ban <member> <reason>` - Bans member from this server\n`n!kick <member> <reason>` - Kick member from this server\n`n!unban <member>` - Unbans member from this server\n`n!mute <member>` - Mute member\n`n!unmute <member>`")
+    embed = discord.Embed(title="Mods bot - Help", description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!ban <member> <reason>` - Bans member from this server\n`n!kick <member> <reason>` - Kick member from this server\n`n!unban <member>` - Unbans member from this server\n`n!mute <member>` - Mute member\n`n!unmute <member>`")
     embed.set_footer(text="Neum - Neum Team | 2021")
     await ctx.send(embed=embed)
 @bot.command()
@@ -188,9 +188,9 @@ async def nickname(ctx, member: discord.Member, nick=None):
     await member.edit(nick=nick)
     await ctx.send(f'<a:yes:878700406048432238> | Nickname was changed for {member.mention}')
 
-@commands.command()
+@bot.command()
 @has_permissions(kick_members=True)
-async def kick(self, ctx, member: discord.Member, *, reason=None):
+async def kick(ctx, member: discord.Member, *, reason=None):
   if reason == None:
     reason = "no reason ¯\_(ツ)_/¯"
     await member.kick(reason=reason)
@@ -199,9 +199,9 @@ async def kick(self, ctx, member: discord.Member, *, reason=None):
     await member.kick(reason=reason)
     await ctx.send(f'<a:yes:878700406048432238> | User {member} has been kick! Reason: {reason}')
 
-@commands.command()
+@bot.command()
 @has_permissions(administrator=True)
-async def unban(self, ctx, *, member):
+async def unban(ctx, *, member):
 
   banned_users = await ctx.guild.bans()
   member_name, member_discriminator = member.split("#")
@@ -214,18 +214,17 @@ async def unban(self, ctx, *, member):
       await ctx.send(f'<a:yes:878700406048432238> | Unbanned {user.mention}')
       return
 
-@commands.command()
+@bot.command()
 @has_permissions(ban_members=True)
-async def ban(self, ctx, member: discord.Member, *, reason=None):
+async def ban(ctx, member: discord.Member, *, reason=None):
   await member.ban(reason=reason)
   await ctx.send(f'<a:yes:878700406048432238>| User {member} has been kick')
-@commands.command()
+@bot.command()
 @has_permissions(manage_roles=True)
 async def muteRole(ctx):
   if get(ctx.guild.roles, name="Muted"):
     await ctx.send("<a:no:878699746984878111>| Role 'Muted' already exists")
   else:
-
     await ctx.guild.create_role(name="Muted", colour=discord.Colour(0x0062ff))
     await ctx.send("<a:yes:878700406048432238>| Created role 'Muted'!")
     permissions = discord.Permissions(send_messages=False, read_messages=True)
@@ -233,7 +232,7 @@ async def muteRole(ctx):
     for role in ctx.guild.roles:
       if role.name == "Muted":
         await role.edit(reason = None, colour = discord.Colour.blue(), permissions=permissions)
-@commands.command()
+@bot.command()
 @has_permissions(manage_roles=True)
 async def mute(ctx, member):
   if get(ctx.guild.roles, name="Muted"):
@@ -242,7 +241,7 @@ async def mute(ctx, member):
     role = get(lambda role: role.name == "Muted", ctx.guild.roles)
     await member.add_roles(role)
     await ctx.send(f"<a:yes:878700406048432238> | Muted {member.mention}!")
-@commands.command()
+@bot.command()
 @has_permissions(manage_roles=True)
 async def unmute(ctx, member):
   if get(ctx.guild.roles, name="Muted"):
@@ -251,6 +250,16 @@ async def unmute(ctx, member):
     role = get(lambda role: role.name == "Muted", ctx.guild.roles)
     await member.remove_roles(role)
     await ctx.send(f"<a:yes:878700406048432238> | Unmuted {member.mention}!")
+@bot.command()
+async def verifyEmbed(ctx, emoji, roleV):
+  embed=discord.Embed(title=f"Welcome to {ctx.guild.name}!", description=f"To verify please react {emoji} to get {roleV} role!", color=0x43bb45)
+  embed.set_footer(text="Neum 2021")
+  msg = await ctx.send(embed=embed)
+  custom_emoji = emoji
+  reaction = await bot.wait_for_reaction(['\N{SMILE}', custom_emoji], msg)
+  member = reaction.member
+  role = get(member.server.roles, name="Test")
+  await bot.add_roles(member, role)
 
 if __name__ == "__main__":
     bot.run(TOKEN)
