@@ -193,10 +193,12 @@ async def kick(ctx, member: discord.Member, *, reason=None):
   if reason == None:
     reason = "no reason ¯\_(ツ)_/¯"
     await member.kick(reason=reason)
-    await ctx.send(f'<a:yes:878700406048432238> | User {member} has been kick for {reason}')
+    embed=discord.Embed(description=f'<a:yes:878700406048432238> | User {member} has been kick for {reason}', color=0x43bb45)
+    await ctx.send(embed=embed)
   else:
     await member.kick(reason=reason)
-    await ctx.send(f'<a:yes:878700406048432238> | User {member} has been kick! Reason: {reason}')
+    embed=discord.Embed(description=f'<a:yes:878700406048432238> | User {member} has been kick! Reason: {reason}', color=0x43bb45)
+    await ctx.send(embed=embed)
 
 @botM.command()
 @has_permissions(administrator=True)
@@ -210,14 +212,16 @@ async def unban(ctx, *, member):
 
     if (user.name, user.discriminator) == (member_name, member_discriminator):
       await ctx.guild.unban(user)
-      await ctx.send(f'<a:yes:878700406048432238> | Unbanned {user.mention}')
+      embed=discord.Embed(description=f'<a:yes:878700406048432238> | Unbanned {user.mention}', color=0x43bb45)
+      await ctx.send(embed=embed)
       return
 
 @botM.command()
 @has_permissions(ban_members=True)
 async def ban(ctx, member: discord.Member, *, reason=None):
   await member.ban(reason=reason)
-  await ctx.send(f'<a:yes:878700406048432238>| User {member} has been kick')
+  embed=discord.Embed(description=f'<a:yes:878700406048432238> | Banned {user.mention}', color=0x43bb45)
+  await ctx.send(embed=embed)
 @botM.command()
 @has_permissions(manage_roles=True)
 async def muteRole(ctx):
