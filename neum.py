@@ -1,8 +1,7 @@
 import os
 import time
 import discord
-from discord import ext
-from ext import bot
+from discord.ext import commands
 import requests
 from discord_slash import SlashCommand
 from discord_slash.utils.manage_components import create_button, create_actionrow
@@ -12,7 +11,7 @@ from discord.ext.botM import has_permissions
 
 
 version = "1.0.41"
-botM = bot.Bot(command_prefix="n!")
+botM = commands.Bot(command_prefix="n!")
 TOKEN = os.getenv("DISCORD_TOKEN")
 botM.remove_command("help")
 
