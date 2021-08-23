@@ -11,7 +11,7 @@ from discord.ext.bot import has_permissions
 from replit import db
 
 
-version = "1.0.37"
+version = "1.0.38"
 bot = bot.Bot(command_prefix="n!")
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.remove_command("help")
@@ -111,7 +111,7 @@ async def weather(ctx, *, city=None):
         await channel.send("City not found.")
 @bot.command()
 async def changes(ctx):
-  embed = discord.Embed(title="Neum Update Log", description=f"**Version: {version}**\n\n- Added `n!embed` command")
+  embed = discord.Embed(title="Neum Update Log", description=f"**Version: {version}**\n\n- Added Mods Commands!")
   embed.set_footer(text="Neum - Neum Team | 2021")
   await ctx.send(embed=embed)
 @bot.command()
@@ -250,16 +250,6 @@ async def unmute(ctx, member):
     role = get(lambda role: role.name == "Muted", ctx.guild.roles)
     await member.remove_roles(role)
     await ctx.send(f"<a:yes:878700406048432238> | Unmuted {member.mention}!")
-@bot.command()
-async def verifyEmbed(ctx, emoji, roleV):
-  embed=discord.Embed(title=f"Welcome to {ctx.guild.name}!", description=f"To verify please react {emoji} to get {roleV} role!", color=0x43bb45)
-  embed.set_footer(text="Neum 2021")
-  msg = await ctx.send(embed=embed)
-  custom_emoji = emoji
-  reaction = await bot.wait_for_reaction(['\N{SMILE}', custom_emoji], msg)
-  member = reaction.member
-  role = get(member.server.roles, name="Test")
-  await bot.add_roles(member, role)
 
 if __name__ == "__main__":
     bot.run(TOKEN)
