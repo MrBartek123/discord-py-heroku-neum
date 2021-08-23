@@ -11,7 +11,7 @@ from discord.ext.bot import has_permissions
 from replit import db
 
 
-version = "1.0.36"
+version = "1.0.37"
 bot = bot.Bot(command_prefix="n!")
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.remove_command("help")
