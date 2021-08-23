@@ -1,7 +1,7 @@
 import os
-from discord.ext import bot
 import time
 import discord
+from discord.ext import bot
 import requests
 from discord_slash import SlashCommand
 from discord_slash.utils.manage_components import create_button, create_actionrow
@@ -11,7 +11,7 @@ from discord.ext.bot import has_permissions
 from replit import db
 
 
-version = "1.0.38"
+version = "1.0.39"
 bot = bot.Bot(command_prefix="n!")
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.remove_command("help")

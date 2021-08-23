@@ -2,4 +2,3 @@ discord.py
 discord
 requests
 discord-py-slash-command
-replit
