@@ -7,7 +7,7 @@ from discord_slash import SlashCommand
 from discord_slash.utils.manage_components import create_button, create_actionrow
 from discord_slash.model import ButtonStyle
 from discord.utils import get
-from commands import has_permissions
+from discord.ext.commands import has_permissions
 
 
 version = "1.0.41"
