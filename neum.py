@@ -39,12 +39,12 @@ async def help(ctx, page=None):
         embed.set_footer(text="Neum - Neum Team | 2021")
         await ctx.send(embed=embed)
     elif page == "roblox":
-        embed = discord.Embed(title="Roblox botM - Help",
+        embed = discord.Embed(title="Roblox Commands - Help",
                               description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!rbicon <placeId>` - Get Roblox Place Icon\n`n!rbinfo <placeId>` - Get Roblox Place Info")
         embed.set_footer(text="Neum - Neum Team | 2021")
         await ctx.send(embed=embed)
     elif page == "main":
-        embed = discord.Embed(title="Main botM - Help",
+        embed = discord.Embed(title="Main Commands - Help",
                               description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!help` - Shows all botM\n`n!ping` - Get Neum Latency\n`n!changes` - Show Neum Update Log\n`n!nickname [member] <nickname>` - Set new nickname to member")
         embed.set_footer(text="Neum - Neum Team | 2021")
         await ctx.send(embed=embed)
@@ -54,17 +54,17 @@ async def help(ctx, page=None):
         embed.set_footer(text="Neum - Neum Team | 2021")
         await ctx.send(embed=embed)
     elif page == "weather":
-        embed = discord.Embed(title="Weatcher botM - Help",
+        embed = discord.Embed(title="Weatcher Commands - Help",
                               description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!weather <city>` - Shows city current weather | **WARNING:** You can't use a city (for example) called 'Chodzież' insted this just use 'Chodziez'")
         embed.set_footer(text="Neum - Neum Team | 2021")
         await ctx.send(embed=embed)
     elif page == "fun":
-        embed = discord.Embed(title="4Fun botM - Help",
+        embed = discord.Embed(title="4Fun Commands - Help",
                               description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!help` - Shows all botM\n`n!ping` - Get Neum Latency")
         embed.set_footer(text="Neum - Neum Team | 2021")
         await ctx.send(embed=embed)
     elif page == "mod":
-        embed = discord.Embed(title="Mods botM - Help",
+        embed = discord.Embed(title="Mods Commands - Help",
                               description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!ban <member> <reason>` - Bans member from this server\n`n!kick <member> <reason>` - Kick member from this server\n`n!unban <member>` - Unbans member from this server\n`n!mute <member>` - Mute member\n`n!unmute <member>`")
         embed.set_footer(text="Neum - Neum Team | 2021")
         await ctx.send(embed=embed)
@@ -335,5 +335,8 @@ async def balance(ctx, member=None):
 @botM.command()
 async def work(ctx):
     await ctx.send(f":coin: | You made {Money.work(ctx.author)}")
+@botM.command()
+async def NeumColors(ctx):
+    await ctx.send(f"Here is a Neum Color List:\n\nA Little Bit Light Grey White - `231, 231, 231`\nNot Totally A Black - `38, 38, 38`")
 if __name__ == "__main__":
     botM.run(TOKEN)
