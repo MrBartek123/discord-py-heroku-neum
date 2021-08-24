@@ -180,6 +180,30 @@ async def warn(ctx, member: discord.Member, *, reason):
 
 
 @botM.command()
+async def rbmarket(ctx, productid):
+    urlAs = f"https://api.roblox.com/marketplace/productinfo?assetid={productid}"
+    req = requests.get(urlAs)
+    data = req.json()
+
+    name = data["Name"]
+    desc = data["Description"]
+    price = data["PriceInRobux"]
+    ItemId = data["AssetId"]
+    
+
+    embed = discord.Embed(title=f"{name}", description=f"{desc}")
+    embed.add_field(name="Price", value=f"{price}")
+    buttons = [
+        create_button(
+            style=ButtonStyle.URL,
+            label=f"View {name} on Roblox Page",
+            url=f"https://www.roblox.com/catalog/{ItemId}/"
+        ),
+    ]
+    action_row = create_actionrow(*buttons)
+    await ctx.send(embed=embed, components=[action_row])
+
+@botM.command()
 async def rbinfo(ctx, placeId):
     universe_url = f"https://api.roblox.com/universes/get-universe-containing-place?placeid={placeId}"
     complete_url = f"https://thumbnails.roblox.com/v1/places/gameicons?placeIds={placeId}&returnPolicy=PlaceHolder&size=512x512&format=Png&isCircular=false"
