@@ -20,6 +20,8 @@ def work(username):
     return moneyWithBonus
 
 def balance(member):
-    return f"{member.mention} balance is {db.get(f'{member.name}Points')} Points"
+    return f"{member.mention} balance is {db.get(f'{member.name}Points')} Coins"
 def bonusBalance(member):
-    return f"{member.mention}, your points bonus is {db.get(f'{member.name}Bonus')}"
+    return f"{member.mention}, your coins bonus is {db.get(f'{member.name}Bonus')}"
+def addMoney(member, value):
+    return f"Added to {member.name} {value} Coins"

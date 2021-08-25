@@ -328,13 +328,21 @@ async def unmute(ctx, member):
         await member.remove_roles(role)
         await ctx.send(f"<a:yes:878700406048432238> | Unmuted {member.mention}!")
 
-## ECONOMY
+
 @botM.command()
 async def balance(ctx, member=None):
+    if member == None:
+        member = ctx.author
     await ctx.send(f":coin: | {Money.balance(member)}")
 @botM.command()
 async def work(ctx):
     await ctx.send(f":coin: | You made {Money.work(ctx.author)}")
+@botM.command()
+async def addMoney(ctx, member=None, *, value):
+    if member == None:
+        member = ctx.author
+    await ctx.send(f":coin: | {Money.addMoney(ctx.author, value)}")
+
 @botM.command()
 async def NeumColors(ctx):
     await ctx.send(f"Here is a Neum Color List:\n\nA Little Bit Light Grey White - `231, 231, 231`\nNot Totally A Black - `38, 38, 38`")
