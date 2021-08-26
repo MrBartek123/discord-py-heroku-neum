@@ -22,10 +22,10 @@ botM.remove_command("help")
 premiumCodes = ["SUMMER2021", "NEUM", "hi"]
 interactionClient = InteractionClient(botM)
 
-@interactionClient.message_command(name='Resend as Embed')
-async def resend(inter):
-    embed = discord.Embed(description=f"{inter.message.content}")
-    await inter.respond(embed=embed)
+@interactionClient.message_command(name='embed')
+async def embed(inter):
+    embedM = discord.Embed(description=f"{inter.message.content}")
+    await inter.respond(embed=embedM)
 
 @botM.event
 async def on_ready():
@@ -60,7 +60,7 @@ async def help(ctx, page=None):
         await ctx.send(embed=embed)
     elif page == "links":
         embed = discord.Embed(title="Neum Links",
-                              description="[Invite Neum](https://discord.com/api/oauth2/authorize?client_id=878259796145479741&permissions=8&redirect_uri=https%3A%2F%2Fdiscord.com%2Fapi%2Foauth2%2Fauthorize&scope=botM%20applications.botM)\n")
+                              description="[Invite Neum](https://discord.com/api/oauth2/authorize?client_id=878259796145479741&permissions=8&redirect_uri=https%3A%2F%2Fdiscord.com%2Fapi%2Foauth2%2Fauthorize&scope=bot%20applications.bot)\n")
         embed.set_footer(text="Neum - Neum Team | 2021")
         await ctx.send(embed=embed)
     elif page == "weather":
