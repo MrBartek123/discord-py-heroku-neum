@@ -10,11 +10,16 @@ from discord.utils import get
 from discord.ext.commands import has_permissions
 from currencyAPI import commands as Money
 import humanize
+import pickledb
 
-version = "1.0.42"
+
+db = pickledb.load('database.db', False)
+
+version = "1.0.43"
 botM = commands.Bot(command_prefix="n!")
 TOKEN = os.getenv("DISCORD_TOKEN")
 botM.remove_command("help")
+premiumCodes = ["SUMMER2021", "NEUM", "hi"]
 
 
 @botM.event
@@ -35,7 +40,7 @@ async def ping(ctx):
 async def help(ctx, page=None):
     if page == None:
         embed = discord.Embed(title="Help",
-                              description=":globe_with_meridians: - **Main botM** `n!help main`\n:sunglasses: - **4Fun botM** `n!help fun`\n:white_sun_cloud: - **Weather botM** `n!help weather`\n:hammer: - **Neum Links** `n!help links`\n:construction_worker: - Mods Command `n!help mods`\n:video_game: - Roblox botM `n!help roblox`")
+                              description=":globe_with_meridians: - **Main Commands** `n!help main`\n:sunglasses: - **4Fun Commands** `n!help fun`\n:white_sun_cloud: - **Weather Commands** `n!help weather`\n:hammer: - **Neum Links** `n!help links`\n:construction_worker: - **Mods Commands** `n!help mods`\n:video_game: - *Roblox Commands** `n!help roblox`\n:sparkles: **Premium Commands** - `n!help premium`")
         embed.set_footer(text="Neum - Neum Team | 2021")
         await ctx.send(embed=embed)
     elif page == "roblox":
@@ -65,11 +70,20 @@ async def help(ctx, page=None):
         await ctx.send(embed=embed)
     elif page == "mod":
         embed = discord.Embed(title="Mods Commands - Help",
-                              description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!ban <member> <reason>` - Bans member from this server\n`n!kick <member> <reason>` - Kick member from this server\n`n!unban <member>` - Unbans member from this server\n`n!mute <member>` - Mute member\n`n!unmute <member>`")
+                              description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!ban <member> <reason>` - Bans member from this server\n`n!kick <member> <reason>` - Kick member from this server\n`n!unban <member>` - Unbans member from this server\n`n!mute <member>` - Mute member\n`n!unmute <member>`\n`n!prefix <prefix>` - Set Neum Prefix")
+        embed.set_footer(text="Neum - Neum Team | 2021")
+        await ctx.send(embed=embed)
+    elif page == "premium":
+        embed = discord.Embed(title="Premium Commands - Help",
+                              description="[arg] = Option Argument | <arg> = Required Argument | Redeem codes to get Neum Premium!\n\n")
         embed.set_footer(text="Neum - Neum Team | 2021")
         await ctx.send(embed=embed)
 
-
+@botM.command()
+async def prefix(ctx, *, prefix):
+    db.set(f"{ctx.guild.id}Prefix", f"{prefix}")
+    await ctx.send(f"Changed {ctx.guild.name} prefix to {prefix}")
+    botM.command_prefix = db.get(f"{ctx.guild.id}Prefix")
 @botM.command()
 async def weather(ctx, *, city=None):
     if city == None:
@@ -346,5 +360,19 @@ async def addMoney(ctx, member=None, *, value):
 @botM.command()
 async def NeumColors(ctx):
     await ctx.send(f"Here is a Neum Color List:\n\nA Little Bit Light Grey White - `231, 231, 231`\nNot Totally A Black - `38, 38, 38`")
+@botM.command()
+async def redeem(ctx, code):
+    if code in premiumCodes:
+        ctx.send(f"Redeemed code! Award: **Neum :sparkles: PREMIUM :sparkles: for infinite time!**")
+        db.set(f"{ctx.guild.id}Premium", True)
+    else:
+        ctx.send(f"Invalid code")
+@botM.command()
+async def premiumStatus(ctx):
+    statusPremium = db.get(f"{ctx.guild.id}Premium")
+    if statusPremium == False:
+        ctx.send("This server don't have Neum Premium")
+    else:
+        ctx.send("This server have Neum Premium!")
 if __name__ == "__main__":
     botM.run(TOKEN)
