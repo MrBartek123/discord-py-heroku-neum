@@ -11,7 +11,8 @@ from discord.ext.commands import has_permissions
 from currencyAPI import commands as Money
 import humanize
 import pickledb
-from dislash import *
+import dislash
+
 
 db = pickledb.load('database.db', False)
 
@@ -20,7 +21,8 @@ botM = commands.Bot(command_prefix="n!")
 TOKEN = os.getenv("DISCORD_TOKEN")
 botM.remove_command("help")
 premiumCodes = ["SUMMER2021", "NEUM", "hi"]
-interactionClient = InteractionClient(botM)
+interactionClient = dislash.InteractionClient(botM)
+
 
 @interactionClient.message_command(name='embed')
 async def embed(inter):
