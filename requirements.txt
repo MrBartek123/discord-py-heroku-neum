@@ -5,3 +5,4 @@ discord
 psycopg2
 pickledb
 humanize
+dislash.py

@@ -24,4 +24,4 @@ def balance(member):
 def bonusBalance(member):
     return f"{member.mention}, your coins bonus is {db.get(f'{member.name}Bonus')}"
 def addMoney(member, value):
-    return f"Added to {member.name} {value} Coins"
+    return f"Added to {member.name} balance {value} Coins"
