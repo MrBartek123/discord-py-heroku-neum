@@ -419,5 +419,11 @@ async def kill(ctx, member="None"):
 async def spaghetti(ctx):
     embed = discord.Embed(description=f":spaghetti: | {ctx.author.mention} get a spaghetti!")
     await ctx.send(embed=embed)
+@botM.command()
+async def fakeWarn(ctx, member: discord.Member):
+    channel = await member.create_dm()
+    embed = discord.Embed(description=f"Warning from {ctx.guild.name}:\nReason: Breaking rules\nLearn more about [warns](https://neum-discord.herokuapp.com/why.html?page=Warns)")
+    await channel.send(embed=embed)
+    await ctx.send(f"<a:yes:878700406048432238>| ||Fake|| Warned {member}")
 if __name__ == "__main__":
     botM.run(TOKEN)
