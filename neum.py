@@ -62,7 +62,7 @@ async def help(ctx, page=None):
         await ctx.send(embed=embed)
     elif page == "links":
         embed = discord.Embed(title="Neum Links",
-                              description="[Invite Neum](https://discord.com/api/oauth2/authorize?client_id=878259796145479741&permissions=8&redirect_uri=https%3A%2F%2Fdiscord.com%2Fapi%2Foauth2%2Fauthorize&scope=bot%20applications.bot)\n")
+                              description="[Invite Neum](https://discord.com/oauth2/authorize?client_id=878259796145479741&permissions=8&redirect_uri=https%3A%2F%2Fdiscord.com%2Fapi%2Foauth2%2Fauthorize&scope=bot%20applications.commands)\n")
         embed.set_footer(text="Neum - Neum Team | 2021")
         await ctx.send(embed=embed)
     elif page == "weather":
