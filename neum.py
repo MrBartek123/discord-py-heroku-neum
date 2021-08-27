@@ -370,16 +370,16 @@ async def NeumColors(ctx):
 @botM.command()
 async def redeem(ctx, code):
     if code in premiumCodes:
-        ctx.send(f"Redeemed code! Award: **Neum :sparkles: PREMIUM :sparkles: for infinite time!**")
+        await ctx.send(f"Redeemed code! Award: **Neum :sparkles: PREMIUM :sparkles: for infinite time!**")
         db.set(f"{ctx.guild.id}Premium", True)
     else:
-        ctx.send(f"Invalid code")
+        await ctx.send(f"Invalid code")
 @botM.command()
 async def premiumStatus(ctx):
     statusPremium = db.get(f"{ctx.guild.id}Premium")
     if statusPremium == False:
-        ctx.send("This server don't have Neum Premium")
+        await ctx.send("This server don't have Neum Premium")
     else:
-        ctx.send("This server have Neum Premium!")
+        await ctx.send("This server have Neum Premium!")
 if __name__ == "__main__":
     botM.run(TOKEN)
