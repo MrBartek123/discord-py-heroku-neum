@@ -403,6 +403,6 @@ async def buyPremium(ctx):
 @botM.command()
 async def editDB(ctx, key, value):
     db.set(key, value)
-    await ctx.send("Done!")
+    await ctx.send(f"Done! ||`key: {key}, value: {value}`||")
 if __name__ == "__main__":
     botM.run(TOKEN)

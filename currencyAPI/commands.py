@@ -14,7 +14,7 @@ import pickledb
 db = pickledb.load('database.db', False)
 
 def work(username):
-    moneyWithout = random.randint(1, 255)
+    moneyWithout = random.randint(1, 255) + db.get(f'{member.id}Points')
     moneyWithBonus = moneyWithout + db.get(f'{username.id}Bonus')
     db.set(f'{username.id}Points', moneyWithBonus)
     return moneyWithBonus
@@ -25,3 +25,4 @@ def bonusBalance(member):
     return f"{member.mention}, your coins bonus is {db.get(f'{member.id}Bonus')}"
 def addMoney(member, value):
     return f"Added to {member.name} balance {value} Coins"
+    db.set(f"{member.id}Points", db.get(f'{member.id}Points') + value)
