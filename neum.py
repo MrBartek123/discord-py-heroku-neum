@@ -37,6 +37,12 @@ async def embed(inter):
     embedM = discord.Embed(description=f"{inter.message.content}")
     await inter.respond(embed=embedM)
 
+
+@interactionClient.message_command(name='report')
+@has_permissions(kick_members=True)
+async def report(inter):
+    await inter.respond(f"{inter.author.mention}, your message is reported")
+
 @botM.event
 async def on_ready():
     print(f"Logged in as {botM.user.name}({botM.user.id})")
