@@ -74,7 +74,7 @@ async def help(ctx, page=None):
         await ctx.send(embed=embed)
     elif page == "fun":
         embed = discord.Embed(title="4Fun Commands - Help",
-                              description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!help` - Shows all botM\n`n!ping` - Get Neum Latency")
+                              description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!kill [member]` - Kill da person :skull:\n`n!spaghetti` - ???")
         embed.set_footer(text="Neum - Neum Team | 2021")
         await ctx.send(embed=embed)
     elif page == "mod":
@@ -142,7 +142,7 @@ async def weather(ctx, *, city=None):
                     ),
                 ]
                 action_row = create_actionrow(*buttons)
-                await channel.send(embed=embed, components=[action_row])
+                await channel.send(embed=embed)
         else:
             await channel.send("City not found.")
 
@@ -409,5 +409,15 @@ async def editDB(ctx, key, value):
         value = True
     db.set(key, value)
     await ctx.send(f"Done! ||`key: {key}, value: {value}`||")
+@botM.command()
+async def kill(ctx, member="None"):
+    if member == "None":
+        member = f"{ctx.author.name} :flushed: :knife:"
+    embed = discord.Embed(description=f":skull: | Killed {member}")
+    await ctx.send(embed=embed)
+@botM.command()
+async def spaghetti(ctx):
+    embed = discord.Embed(description=f":spaghetti: | {ctx.author.mention} get a spaghetti!")
+    await ctx.send(embed=embed)
 if __name__ == "__main__":
     botM.run(TOKEN)
