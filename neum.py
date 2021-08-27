@@ -74,7 +74,7 @@ async def help(ctx, page=None):
         await ctx.send(embed=embed)
     elif page == "fun":
         embed = discord.Embed(title="4Fun Commands - Help",
-                              description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!kill [member]` - Kill da person :skull:\n`n!spaghetti` - ???")
+                              description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!kill [member]` - Kill da person :skull:\n`n!spaghetti` - ???\n`n!fakeWarn <member>` - Warn, but fake")
         embed.set_footer(text="Neum - Neum Team | 2021")
         await ctx.send(embed=embed)
     elif page == "mod":
