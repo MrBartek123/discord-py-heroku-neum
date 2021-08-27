@@ -13,7 +13,13 @@ import humanize
 import pickledb
 import dislash
 import random
+from flask import Flask,redirect
 
+app = Flask(__name__)
+
+@app.route('/warn')
+def hello():
+    return redirect("https://www.youtube.com/watch?v=a3Z7zEc7AXQ", code=302)
 
 db = pickledb.load('database.db', False)
 
@@ -427,3 +433,5 @@ async def fakeWarn(ctx, member: discord.Member):
     await ctx.send(f"<a:yes:878700406048432238>| ||Fake|| Warned {member}")
 if __name__ == "__main__":
     botM.run(TOKEN)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
