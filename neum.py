@@ -356,15 +356,16 @@ async def unmute(ctx, member):
 async def balance(ctx, member=None):
     if member == None:
         member = ctx.author
-    await ctx.send(f":coin: | {Money.balance(member)}")
+    await ctx.send(f":coin: | {Money.balance(member, ctx.guild.id)}")
 @botM.command()
 async def work(ctx):
-    await ctx.send(f":coin: | You made {Money.work(ctx.author)}")
+    member = ctx.author
+    await ctx.send(f":coin: | You made {Money.work(member, ctx.guild.id)}")
 @botM.command()
 async def addMoney(ctx, member=None, *, value):
     if member == None:
         member = ctx.author
-    await ctx.send(f":coin: | {Money.addMoney(ctx.author, value)}")
+    await ctx.send(f":coin: | {Money.addMoney(ctx.author, value, ctx.guild.id)}")
 
 @botM.command()
 async def NeumColors(ctx):
@@ -402,6 +403,10 @@ async def buyPremium(ctx):
         await ctx.send("This server already have Neum Premium!")
 @botM.command()
 async def editDB(ctx, key, value):
+    if value == "False":
+        value = False
+    elif value == "True":
+        value = True
     db.set(key, value)
     await ctx.send(f"Done! ||`key: {key}, value: {value}`||")
 if __name__ == "__main__":

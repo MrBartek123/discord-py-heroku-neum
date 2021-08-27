@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7212ed35-9d9d-49aa-bd2b-9dcae3292a71" name="Changes" comment="haha yes" />
+    <list default="true" id="7212ed35-9d9d-49aa-bd2b-9dcae3292a71" name="Changes" comment="haha yes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/currencyAPI/commands.py" beforeDir="false" afterPath="$PROJECT_DIR$/currencyAPI/commands.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neum.py" beforeDir="false" afterPath="$PROJECT_DIR$/neum.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -174,7 +178,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630074270294</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="haha yes">
+      <created>1630074767523</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1630074767523</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
