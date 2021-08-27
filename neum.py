@@ -391,12 +391,12 @@ async def buyPremium(ctx):
     statusPremium = db.get(f"{ctx.guild.id}Premium")
     if statusPremium == False:
         code = random.randrange(100000, 999999)
-        points = db.get(f'{ctx.author.id}Points')
-        bonus = db.get(f'{ctx.author.id}Bonus')
+        points = db.get(f'{ctx.author.id}{ctx.guild.id}Points')
+        bonus = db.get(f'{ctx.author.id}{ctx.guild.id}Bonus')
         if points >= 500 and bonus >= 2:
             await ctx.send(f"Please note this code costs 500 Coins and 2 Bonus Points and its only one time use\nCode: {code}")
-            db.set(f"{ctx.author.id}Points", points - 500)
-            db.set(f"{ctx.author.id}Bonus", bonus - 2)
+            db.set(f"{ctx.author.id}{ctx.guild.id}Points", points - 500)
+            db.set(f"{ctx.author.id}{ctx.guild.id}Bonus", bonus - 2)
         else:
             await ctx.send(f"You don't have enough Coins and Bonus Points, you need {500 - points} Coins and {2 - bonus} Bonus Points more")
     else:
