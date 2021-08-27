@@ -29,6 +29,6 @@ def bonusBalance(member, serverId):
     return f"{member.mention}, your coins bonus is {db.get(f'{member.id}{serverId}Bonus')}"
 
 
-def addMoney(member, value, serverId):
+def addMoney(member, serverId, value=int):
     db.set(f"{member.id}Points", db.get(f'{member.id}{serverId}Points') + value)
     return f"Added to {member.name} balance {value} Coins"
