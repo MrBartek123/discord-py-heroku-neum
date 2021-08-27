@@ -12,6 +12,7 @@ from currencyAPI import commands as Money
 import humanize
 import pickledb
 import dislash
+import random
 
 
 db = pickledb.load('database.db', False)
@@ -21,6 +22,7 @@ botM = commands.Bot(command_prefix="n!")
 TOKEN = os.getenv("DISCORD_TOKEN")
 botM.remove_command("help")
 premiumCodes = ["SUMMER2021", "NEUM", "hi"]
+userCodes = []
 interactionClient = dislash.InteractionClient(botM)
 
 
@@ -372,7 +374,9 @@ async def redeem(ctx, code):
     if code in premiumCodes:
         await ctx.send(f"Redeemed code! Award: **Neum :sparkles: PREMIUM :sparkles: for infinite time!**")
         db.set(f"{ctx.guild.id}Premium", True)
-    else:
+    elif code in userCodes:
+        await ctx.send(f"Redeemed code! Award: **Neum :sparkles: PREMIUM :sparkles: for infinite time!**")
+        db.set(f"{ctx.guild.id}Premium", True)
         await ctx.send(f"Invalid code")
 @botM.command()
 async def premiumStatus(ctx):
@@ -381,5 +385,24 @@ async def premiumStatus(ctx):
         await ctx.send("This server don't have Neum Premium")
     else:
         await ctx.send("This server have Neum Premium!")
+@botM.command()
+async def buyPremium(ctx):
+    statusPremium = db.get(f"{ctx.guild.id}Premium")
+    if statusPremium == False:
+        code = random.randrange(100000, 999999)
+        points = db.get(f'{ctx.author.id}Points')
+        bonus = db.get(f'{ctx.author.id}Bonus')
+        if points >= 500 and bonus >= 2:
+            await ctx.send(f"Please note this code costs 500 Coins and 2 Bonus Points and its only one time use\nCode: {code}")
+            db.set(f"{ctx.author.id}Points", points - 500)
+            db.set(f"{ctx.author.id}Bonus", bonus - 2)
+        else:
+            await ctx.send(f"You don't have enough Coins and Bonus Points, you need {500 - points} Coins and {2 - bonus} Bonus Points more")
+    else:
+        await ctx.send("This server already have Neum Premium!")
+@botM.command()
+async def editDB(ctx, key, value):
+    db.set(key, value)
+    await ctx.send("Done!")
 if __name__ == "__main__":
     botM.run(TOKEN)
