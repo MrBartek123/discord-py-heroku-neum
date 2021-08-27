@@ -6,3 +6,4 @@ psycopg2
 pickledb
 humanize
 dislash.py
+flask
