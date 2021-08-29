@@ -3,7 +3,7 @@ import time
 import discord
 from discord.ext import commands
 import requests
-from discord_slash import SlashCommand
+from discord_slash import SlashCommand, SlashContext
 from discord_slash.utils.manage_components import create_button, create_actionrow
 from discord_slash.model import ButtonStyle
 from discord.utils import get
@@ -13,13 +13,15 @@ import humanize
 import pickledb
 import dislash
 import random
-from flask import Flask,redirect
+from flask import Flask, redirect
 
 app = Flask(__name__)
+
 
 @app.route('/warn')
 def hello():
     return redirect("https://www.youtube.com/watch?v=a3Z7zEc7AXQ", code=302)
+
 
 db = pickledb.load('database.db', False)
 
@@ -30,6 +32,16 @@ botM.remove_command("help")
 premiumCodes = ["SUMMER2021", "NEUM", "hi"]
 userCodes = []
 interactionClient = dislash.InteractionClient(botM)
+slash = SlashCommand(botM)
+
+
+@slash.slash(name="avatar")
+async def avatar(ctx: SlashContext, member=None):
+    if member == None:
+        member = ctx.author
+    embed3 = discord.Embed()
+    embed3.set_thumbnail(member.avatar_url)
+    await ctx.send(embed=embed3)
 
 
 @interactionClient.message_command(name='embed')
@@ -37,11 +49,6 @@ async def embed(inter):
     embedM = discord.Embed(description=f"{inter.message.content}")
     await inter.respond(embed=embedM)
 
-
-@interactionClient.message_command(name='report')
-@has_permissions(kick_members=True)
-async def report(inter):
-    await inter.respond(f"{inter.author.mention}, your message is reported")
 
 @botM.event
 async def on_ready():
@@ -100,11 +107,14 @@ async def help(ctx, page=None):
         embed.set_footer(text="Neum - Neum Team | 2021")
         await ctx.send(embed=embed)
 
+
 @botM.command()
 async def prefix(ctx, *, prefix):
     db.set(f"{ctx.guild.id}Prefix", f"{prefix}")
     await ctx.send(f"Changed {ctx.guild.name} prefix to {prefix}")
     botM.command_prefix = db.get(f"{ctx.guild.id}Prefix")
+
+
 @botM.command()
 async def weather(ctx, *, city=None):
     if city == None:
@@ -224,7 +234,6 @@ async def rbmarket(ctx, productid):
     desc = data["Description"]
     price = data["PriceInRobux"]
     ItemId = data["AssetId"]
-    
 
     embed = discord.Embed(title=f"{name}", description=f"{desc}")
     embed.add_field(name="Price", value=f"{price}")
@@ -237,6 +246,7 @@ async def rbmarket(ctx, productid):
     ]
     action_row = create_actionrow(*buttons)
     await ctx.send(embed=embed, components=[action_row])
+
 
 @botM.command()
 async def rbinfo(ctx, placeId):
@@ -259,10 +269,9 @@ async def rbinfo(ctx, placeId):
     pVisits = pData[0]["visits"]
     pPlaying = pData[0]['playing']
     pId = pData[0]["rootPlaceId"]
-    
+
     iconD = x["data"]
     icon = iconD[0]["imageUrl"]
-    
 
     embed = discord.Embed(title=f"{pName}", description=f"{pDesc}")
     embed.add_field(name="Visits", value=f"{humanize.intword(pVisits)}")
@@ -369,19 +378,27 @@ async def balance(ctx, member=None):
     if member == None:
         member = ctx.author
     await ctx.send(f":coin: | {Money.balance(member, ctx.guild.id)}")
+
+
 @botM.command()
 async def work(ctx):
     member = ctx.author
     await ctx.send(f":coin: | You made {Money.work(member, ctx.guild.id)}")
+
+
 @botM.command()
 async def addMoney(ctx, member=None, *, value):
     if member == None:
         member = ctx.author
     await ctx.send(f":coin: | {Money.addMoney(ctx.author, value, ctx.guild.id)}")
 
+
 @botM.command()
 async def NeumColors(ctx):
-    await ctx.send(f"Here is a Neum Color List:\n\nA Little Bit Light Grey White - `231, 231, 231`\nNot Totally A Black - `38, 38, 38`")
+    await ctx.send(
+        f"Here is a Neum Color List:\n\nA Little Bit Light Grey White - `231, 231, 231`\nNot Totally A Black - `38, 38, 38`")
+
+
 @botM.command()
 async def redeem(ctx, code):
     if code in premiumCodes:
@@ -391,6 +408,8 @@ async def redeem(ctx, code):
         await ctx.send(f"Redeemed code! Award: **Neum :sparkles: PREMIUM :sparkles: for infinite time!**")
         db.set(f"{ctx.guild.id}Premium", True)
         await ctx.send(f"Invalid code")
+
+
 @botM.command()
 async def premiumStatus(ctx):
     statusPremium = db.get(f"{ctx.guild.id}Premium")
@@ -398,6 +417,8 @@ async def premiumStatus(ctx):
         await ctx.send("This server don't have Neum Premium")
     else:
         await ctx.send("This server have Neum Premium!")
+
+
 @botM.command()
 async def buyPremium(ctx):
     statusPremium = db.get(f"{ctx.guild.id}Premium")
@@ -406,13 +427,17 @@ async def buyPremium(ctx):
         points = db.get(f'{ctx.author.id}{ctx.guild.id}Points')
         bonus = db.get(f'{ctx.author.id}{ctx.guild.id}Bonus')
         if points <= 500 and bonus <= 2:
-            await ctx.send(f"Please note this code costs 500 Coins and 2 Bonus Points and its only one time use\nCode: {code}")
+            await ctx.send(
+                f"Please note this code costs 500 Coins and 2 Bonus Points and its only one time use\nCode: {code}")
             db.set(f"{ctx.author.id}{ctx.guild.id}Points", points - 500)
             db.set(f"{ctx.author.id}{ctx.guild.id}Bonus", bonus - 2)
         else:
-            await ctx.send(f"You don't have enough Coins and Bonus Points, you need {500 - points} Coins and {2 - bonus} Bonus Points more")
+            await ctx.send(
+                f"You don't have enough Coins and Bonus Points, you need {500 - points} Coins and {2 - bonus} Bonus Points more")
     else:
         await ctx.send("This server already have Neum Premium!")
+
+
 @botM.command()
 async def editDB(ctx, key, value):
     if value == "False":
@@ -421,22 +446,31 @@ async def editDB(ctx, key, value):
         value = True
     db.set(key, value)
     await ctx.send(f"Done! ||`key: {key}, value: {value}`||")
+
+
 @botM.command()
 async def kill(ctx, member="None"):
     if member == "None":
         member = f"{ctx.author.name} :flushed: :knife:"
     embed = discord.Embed(description=f":skull: | Killed {member}")
     await ctx.send(embed=embed)
+
+
 @botM.command()
 async def spaghetti(ctx):
     embed = discord.Embed(description=f":spaghetti: | {ctx.author.mention} get a spaghetti!")
     await ctx.send(embed=embed)
+
+
 @botM.command()
 async def fakeWarn(ctx, member: discord.Member):
     channel = await member.create_dm()
-    embed = discord.Embed(description=f"Warning from {ctx.guild.name}:\nReason: Breaking rules\nLearn more about [warns](https://www.thisworldthesedays.com/why-i-get-a-warn.html)")
+    embed = discord.Embed(
+        description=f"Warning from {ctx.guild.name}:\nReason: Breaking rules\nLearn more about [warns](https://www.thisworldthesedays.com/why-i-get-a-warn.html)")
     await channel.send(embed=embed)
     await ctx.send(f"<a:yes:878700406048432238>| ||Fake|| Warned {member}")
+
+
 if __name__ == "__main__":
     botM.run(TOKEN)
     port = int(os.environ.get('PORT', 5000))
