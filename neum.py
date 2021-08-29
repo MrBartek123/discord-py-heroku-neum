@@ -36,22 +36,31 @@ interactionClient = dislash.InteractionClient(botM)
 
 
 @botM.command()
-async def testMenu(ctx):
+async def deleteRole(ctx):
+    roles = []
+    for r in ctx.guild.roles:
+        roles.append(r)
     await ctx.send(
-        "This message has a select menu!",
+        "Choose role to delete",
         components=[
             SelectMenu(
                 custom_id="test",
-                placeholder="Choose up to 2 options",
-                max_values=2,
-                options=[
-                    SelectOption("Option 1", "value 1"),
-                    SelectOption("Option 2", "value 2"),
-                    SelectOption("Option 3", "value 3")
-                ]
+                max_values=1,
+                placeholder="Choose role to delete",
+                options=[roles]
             )
         ]
     )
+
+    def check(inter):
+        if inter.author == ctx.author:
+            print("true")
+    # Wait for a menu click under the message you've just sent
+    inter = await msg.wait_for_dropdown(check)
+    # Tell which options you received
+    labels = [option.label for option in inter.select_menu.selected_options]
+    await inter.reply(f"Deleted role {', '.join(labels)}")
+    await botM.delete_role(ctx.guild, option)
 
 
 @interactionClient.slash_command(
