@@ -15,6 +15,7 @@ import dislash
 import random
 from flask import Flask, redirect
 from dislash import Option, OptionType, SelectMenu, SelectOption, ActionRow, Button, ButtonStyle
+import urllib
 
 app = Flask(__name__)
 
@@ -55,6 +56,7 @@ async def deleteRole(ctx):
     def check(inter):
         if inter.author == ctx.author:
             print("true")
+
     # Wait for a menu click under the message you've just sent
     inter = await msg.wait_for_dropdown(check)
     # Tell which options you received
@@ -64,7 +66,7 @@ async def deleteRole(ctx):
 
 
 @interactionClient.slash_command(
-    name="avatar", # Defaults to the function name
+    name="avatar",  # Defaults to the function name
     description="Get member avatar",
     options=[
         Option('user', 'Specify any user or leave blank to get your avatar', OptionType.USER),
@@ -107,7 +109,7 @@ async def help(ctx, page=None):
         await ctx.send(embed=embed)
     elif page == "roblox":
         embed = discord.Embed(title="Roblox Commands - Help",
-                              description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!rbicon <placeId>` - Get Roblox Place Icon\n`n!rbinfo <placeId>` - Get Roblox Place Info")
+                              description="[arg] = Option Argument | <arg> = Required Argument\n\n`n!rbicon <placeId>` - Get Roblox Place Icon\n`n!rbinfo <placeId>` - Get Roblox Place Info\n`n!rbmarket <productId>` - Get Marketplace Product Info")
         embed.set_footer(text="Neum - Neum Team | 2021")
         await ctx.send(embed=embed)
     elif page == "main":
@@ -189,16 +191,7 @@ async def weather(ctx, *, city=None):
                 embed.add_field(name="Wind Speed", value=f"{wind_speed}m/s")
                 embed.set_thumbnail(url="https://i.ibb.co/CMrsxdX/weather.png")
                 embed.set_footer(text=f"Requested by {ctx.author.name} | Powered by OpenWeather")
-
-                row_of_buttons = ActionRow(
-                    Button(
-                        style=ButtonStyle.URL,
-                        label="View weather on web",
-                        custom_id="url",
-                        url=fullUrl
-                    )
-                )
-                await channel.send(embed=embed, components=[row_of_buttons])
+                await channel.send(embed=embed)
         else:
             await channel.send("City not found.")
 
@@ -271,15 +264,7 @@ async def rbmarket(ctx, productid):
 
     embed = discord.Embed(title=f"{name}", description=f"{desc}")
     embed.add_field(name="Price", value=f"{price}")
-    buttons = [
-        create_button(
-            style=ButtonStyle.URL,
-            label=f"View {name} on Roblox Page",
-            url=f"https://www.roblox.com/catalog/{ItemId}/"
-        ),
-    ]
-    action_row = create_actionrow(*buttons)
-    await ctx.send(embed=embed, components=[action_row])
+    await ctx.send(embed=embed)
 
 
 @botM.command()
@@ -311,15 +296,7 @@ async def rbinfo(ctx, placeId):
     embed.add_field(name="Visits", value=f"{humanize.intword(pVisits)}")
     embed.add_field(name="Playing", value=f"{humanize.intword(pPlaying)}")
     embed.set_thumbnail(url=icon)
-    row_of_buttons = ActionRow(
-        Button(
-            style=ButtonStyle.URL,
-            label=f"Play {pName}",
-            custom_id="url",
-            url=f"https://www.roblox.com/games/{pId}/"
-        )
-    )
-    await ctx.send(embed=embed, components=[row_of_buttons])
+    await ctx.send(embed=embed)
 
 
 @botM.command()
@@ -504,6 +481,13 @@ async def fakeWarn(ctx, member: discord.Member):
     await channel.send(embed=embed)
     await ctx.send(f"<a:yes:878700406048432238>| ||Fake|| Warned {member}")
 
+
+@botM.command()
+async def runPython(ctx):
+    attachment_url = ctx.message.attachments[0].url
+    testfile = urllib.URLopener()
+    testfile.retrieve(attachment_url, f"executePy{ctx.author.name}.py")
+    os.system(f"python executePy{ctx.author.name}.py")
 
 if __name__ == "__main__":
     botM.run(TOKEN)
