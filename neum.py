@@ -14,7 +14,7 @@ import pickledb
 import dislash
 import random
 from flask import Flask, redirect
-from dislash import Option, OptionType, SelectMenu, SelectOption, ActionRow
+from dislash import Option, OptionType, SelectMenu, SelectOption, ActionRow, Button, ButtonStyle
 
 app = Flask(__name__)
 
@@ -311,15 +311,15 @@ async def rbinfo(ctx, placeId):
     embed.add_field(name="Visits", value=f"{humanize.intword(pVisits)}")
     embed.add_field(name="Playing", value=f"{humanize.intword(pPlaying)}")
     embed.set_thumbnail(url=icon)
-    buttons = [
-        create_button(
+    row_of_buttons = ActionRow(
+        Button(
             style=ButtonStyle.URL,
             label=f"Play {pName}",
+            custom_id="url",
             url=f"https://www.roblox.com/games/{pId}/"
-        ),
-    ]
-    action_row = create_actionrow(*buttons)
-    await ctx.send(embed=embed, components=[action_row])
+        )
+    )
+    await ctx.send(embed=embed, components=[row_of_buttons])
 
 
 @botM.command()
