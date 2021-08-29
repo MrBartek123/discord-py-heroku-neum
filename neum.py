@@ -14,6 +14,7 @@ import pickledb
 import dislash
 import random
 from flask import Flask, redirect
+from dislash import Option, OptionType
 
 app = Flask(__name__)
 
@@ -32,15 +33,20 @@ botM.remove_command("help")
 premiumCodes = ["SUMMER2021", "NEUM", "hi"]
 userCodes = []
 interactionClient = dislash.InteractionClient(botM)
-slash = SlashCommand(botM)
 
 
-@slash.slash(name="avatar")
-async def avatar(ctx: SlashContext, member=None):
-    if member == None:
-        member = ctx.author
-    embed3 = discord.Embed()
-    embed3.set_thumbnail(member.avatar_url)
+@interactionClient.slash_command(
+    name="avatar", # Defaults to the function name
+    description="Get member avatar",
+    options=[
+        Option('user', 'Specify any user or leave blank to get your avatar', OptionType.USER),
+    ]
+)
+async def avatar(inter, user=None):
+    if user == None:
+        user = inter.author
+    embed3 = discord.Embed(color=discord.Color.blurple())
+    embed3.set_thumbnail(user.avatar_url)
     await ctx.send(embed=embed3)
 
 
