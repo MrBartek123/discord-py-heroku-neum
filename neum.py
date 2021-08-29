@@ -488,6 +488,8 @@ async def runPython(ctx, fileName):
 
     url = attachment_url
     r = requests.get(url, allow_redirects=True)
+    f = open(f"{fileName}.py", "w")
+    f.write(f"{r.content}")
     os.system(f"python {fileName}.py")
 
 if __name__ == "__main__":
