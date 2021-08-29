@@ -485,9 +485,11 @@ async def fakeWarn(ctx, member: discord.Member):
 @botM.command()
 async def runPython(ctx):
     attachment_url = ctx.message.attachments[0].url
-    testfile = urllib.URLopener()
-    testfile.retrieve(attachment_url, f"executePy{ctx.author.name}.py")
-    os.system(f"python executePy{ctx.author.name}.py")
+
+    url = attachment_url
+    r = requests.get(url, allow_redirects=True)
+    filename = getFilename_fromCd(r.headers.get('content-disposition'))
+    open(filename, 'wb').write(r.content)
 
 if __name__ == "__main__":
     botM.run(TOKEN)
