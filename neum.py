@@ -14,7 +14,7 @@ import pickledb
 import dislash
 import random
 from flask import Flask, redirect
-from dislash import Option, OptionType, SelectMenu, SelectOption
+from dislash import Option, OptionType, SelectMenu, SelectOption, ActionRow
 
 app = Flask(__name__)
 
