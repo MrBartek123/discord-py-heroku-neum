@@ -39,7 +39,7 @@ interactionClient = dislash.InteractionClient(botM)
 async def deleteRole(ctx):
     roles = []
     for r in ctx.guild.roles:
-        roles.append(r)
+        roles.append(SelectOption(r, r))
     await ctx.send(
         "Choose role to delete",
         components=[
@@ -47,7 +47,7 @@ async def deleteRole(ctx):
                 custom_id="test",
                 max_values=1,
                 placeholder="Choose role to delete",
-                options=[roles]
+                options=roles
             )
         ]
     )
