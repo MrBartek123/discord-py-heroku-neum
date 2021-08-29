@@ -14,7 +14,7 @@ import pickledb
 import dislash
 import random
 from flask import Flask, redirect
-from dislash import Option, OptionType
+from dislash import Option, OptionType, SelectMenu
 
 app = Flask(__name__)
 
@@ -33,6 +33,25 @@ botM.remove_command("help")
 premiumCodes = ["SUMMER2021", "NEUM", "hi"]
 userCodes = []
 interactionClient = dislash.InteractionClient(botM)
+
+
+@botM.command()
+async def testMenu(ctx):
+    await ctx.send(
+        "This message has a select menu!",
+        components=[
+            SelectMenu(
+                custom_id="test",
+                placeholder="Choose up to 2 options",
+                max_values=2,
+                options=[
+                    SelectOption("Option 1", "value 1"),
+                    SelectOption("Option 2", "value 2"),
+                    SelectOption("Option 3", "value 3")
+                ]
+            )
+        ]
+    )
 
 
 @interactionClient.slash_command(
@@ -162,15 +181,15 @@ async def weather(ctx, *, city=None):
                 embed.set_thumbnail(url="https://i.ibb.co/CMrsxdX/weather.png")
                 embed.set_footer(text=f"Requested by {ctx.author.name} | Powered by OpenWeather")
 
-                buttons = [
-                    create_button(
+                row_of_buttons = ActionRow(
+                    Button(
                         style=ButtonStyle.URL,
-                        label="View Weather on web",
+                        label="View weather on web",
+                        custom_id="url",
                         url=fullUrl
-                    ),
-                ]
-                action_row = create_actionrow(*buttons)
-                await channel.send(embed=embed)
+                    )
+                )
+                await channel.send(embed=embed, components=[row_of_buttons])
         else:
             await channel.send("City not found.")
 
@@ -479,5 +498,3 @@ async def fakeWarn(ctx, member: discord.Member):
 
 if __name__ == "__main__":
     botM.run(TOKEN)
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
