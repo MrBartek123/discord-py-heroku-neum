@@ -496,7 +496,7 @@ async def country(ctx, name):
     embed.add_field(name=f"Currencies", value=f"{country.currencies}")
     embed.add_field(name=f"Name", value=f"{country.name}")
     embed.add_field(name=f"Native name", value=f"{country.native_name}")
-    embed.add_field(name=f"Population", value=f"{country.Population}")
+    embed.add_field(name=f"Population", value=f"{country.population}")
 
     await ctx.send(embed=embed)
 if __name__ == "__main__":
