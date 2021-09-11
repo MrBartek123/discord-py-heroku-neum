@@ -16,6 +16,7 @@ import random
 from flask import Flask, redirect
 from dislash import Option, OptionType, SelectMenu, SelectOption, ActionRow, Button, ButtonStyle
 import urllib
+from restcountries import RestCountryApiV2 as rapi
 
 app = Flask(__name__)
 
@@ -483,14 +484,20 @@ async def fakeWarn(ctx, member: discord.Member):
 
 
 @botM.command()
-async def runPython(ctx, fileName):
-    attachment_url = ctx.message.attachments[0].url
+async def country(ctx, name):
+    country_list = rapi.get_countries_by_name(name)
 
-    url = attachment_url
-    r = requests.get(url, allow_redirects=True)
-    f = open(f"{fileName}.py", "w")
-    f.write(f"{r.content}")
-    os.system(f"python {fileName}.py")
+    country = country_list[0]
 
+
+    embed = discord.Embed(
+        description=f"{country.name} {country.flag}")
+    embed.add_field(name=f"Capital City", value=f"{country.capital}")
+    embed.add_field(name=f"Currencies", value=f"{country.currencies}")
+    embed.add_field(name=f"Name", value=f"{country.name}")
+    embed.add_field(name=f"Native name", value=f"{country.native_name}")
+    embed.add_field(name=f"Population", value=f"{country.Population}")
+
+    await ctx.send(embed=embed)
 if __name__ == "__main__":
     botM.run(TOKEN)

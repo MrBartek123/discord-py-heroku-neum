@@ -7,3 +7,4 @@ pickledb
 humanize
 dislash.py
 flask
+python-restcountries
