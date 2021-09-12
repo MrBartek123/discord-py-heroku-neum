@@ -90,7 +90,7 @@ async def embed(inter):
 @botM.event
 async def on_ready():
     print(f"Logged in as {botM.user.name}({botM.user.id})")
-    await botM.change_presence(activity=discord.Game(name=f"n!help | n!help links"))
+    await botM.change_presence(activity=discord.Game(name=f"n!help | n!help links | {str(len(botM.guilds))} servers using Neum!"))
 
 
 @botM.command()
