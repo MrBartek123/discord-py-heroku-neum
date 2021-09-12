@@ -99,7 +99,7 @@ staffCount = 1
 @botM.command()
 async def BotStats(ctx):
     embed = discord.Embed(title="Bot Stats",
-                          description="**Neum is powering {str(len(botM.guilds))}**\n**Over {commandsCount} commands in one bot**\n**We have {staffCount} Neum Devs Team Members!**",
+                          description=f"**Neum is powering {str(len(botM.guilds))}**\n\n**Over {commandsCount} commands in one bot**\n\n**We have {staffCount} Neum Devs Team Members!**",
                           color=0x80cfff)
     await ctx.send(embed=embed)
 
