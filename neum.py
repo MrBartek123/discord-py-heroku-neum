@@ -502,5 +502,11 @@ async def country(ctx, *, name):
     embed.set_thumbnail(url=country.flag)
 
     await ctx.send(embed=embed)
+
+
+@botM.command()
+async def updateBot(ctx):
+    await ctx.send("Changed bot status")
+    await botM.change_presence(status=discord.Status.dnd , activity=discord.Game(name=f"Updating..."))
 if __name__ == "__main__":
     botM.run(TOKEN)
