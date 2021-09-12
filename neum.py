@@ -28,6 +28,8 @@ def hello():
 
 db = pickledb.load('database.db', False)
 
+
+commandsCount = 33
 version = "1.0.43"
 botM = commands.Bot(command_prefix="n!")
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -90,7 +92,16 @@ async def embed(inter):
 @botM.event
 async def on_ready():
     print(f"Logged in as {botM.user.name}({botM.user.id})")
-    await botM.change_presence(activity=discord.Game(name=f"n!help | n!help links | {str(len(botM.guilds))} servers using Neum!"))
+    await botM.change_presence(activity=discord.Game(name=f"n!help | n!help links"))
+
+staffCount = 1
+
+@botM.command()
+async def BotStats(ctx):
+    embed = discord.Embed(title="Bot Stats",
+                          description="**Neum is powering {str(len(botM.guilds))}**\n**Over {commandsCount} commands in one bot**\n**We have {staffCount} Neum Devs Team Members!**",
+                          color=0x80cfff)
+    await ctx.send(embed=embed)
 
 
 @botM.command()
