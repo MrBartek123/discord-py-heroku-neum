@@ -494,7 +494,7 @@ async def country(ctx, name):
         title=f"{country.name}")
     embed.add_field(name=f"Capital City", value=f"{country.capital}")
     currencies = country.currencies
-    symb = currencies["symbol"]
+    symb = currencies[0]["symbol"]
     embed.add_field(name=f"Currencies", value=f"{symb}")
     embed.add_field(name=f"Name", value=f"{country.name}")
     embed.add_field(name=f"Native name", value=f"{country.native_name}")
