@@ -484,7 +484,7 @@ async def fakeWarn(ctx, member: discord.Member):
 
 
 @botM.command()
-async def country(ctx, name):
+async def country(ctx, *, name):
     country_list = rapi.get_countries_by_name(name)
 
     country = country_list[0]
@@ -494,8 +494,8 @@ async def country(ctx, name):
         title=f"{country.name}")
     embed.add_field(name=f"Capital City", value=f"{country.capital}")
     currencies = country.currencies
-    symb = currencies[0]["symbol"]
-    embed.add_field(name=f"Currencies", value=f"{symb}")
+    symb = currencies[0]["code"]
+    embed.add_field(name=f"Currencies", value=f"{symb} ({currencies[0]['name']}) ")
     embed.add_field(name=f"Name", value=f"{country.name}")
     embed.add_field(name=f"Native name", value=f"{country.native_name}")
     embed.add_field(name=f"Population", value=f"{country.population}")
