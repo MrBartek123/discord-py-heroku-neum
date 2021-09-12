@@ -502,7 +502,7 @@ async def country(ctx, *, name):
 
 
     embed = discord.Embed(
-        title=f"{country.name} {country.flag}")
+        title=f"{country.name}")
     embed.add_field(name=f"Capital City", value=f"{country.capital}")
     currencies = country.currencies
     symb = currencies[0]["code"]
@@ -510,6 +510,7 @@ async def country(ctx, *, name):
     embed.add_field(name=f"Name", value=f"{country.name}")
     embed.add_field(name=f"Native name", value=f"{country.native_name}")
     embed.add_field(name=f"Population", value=f"{country.population}")
+    embed.set_thumbnail(url=f"{country.flag}")
 
     await ctx.send(embed=embed)
 
