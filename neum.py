@@ -13,7 +13,6 @@ import humanize
 import pickledb
 import dislash
 import random
-import re
 from flask import Flask, redirect
 from dislash import Option, OptionType, SelectMenu, SelectOption, ActionRow, Button, ButtonStyle
 import urllib
@@ -484,5 +483,6 @@ async def spotify(ctx, command=None, arg="None"):
         for idx, track in enumerate(results['tracks']['items']):
             embed = discord.Embed(title=f"🎵 Result for {arg} 🎵", description=f"**{track['name']}** by {track['artists'][0]['name']} | [Preview sound here]({track['preview_url']})")
             embed.set_thumbnail(url=track['album']['images'][0]['url'])
+            await ctx.send(embed=embed)
 if __name__ == "__main__":
     botM.run(TOKEN)
