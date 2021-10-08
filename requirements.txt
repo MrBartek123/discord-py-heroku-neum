@@ -8,3 +8,4 @@ humanize
 dislash.py
 flask
 python-restcountries
+spotipy
