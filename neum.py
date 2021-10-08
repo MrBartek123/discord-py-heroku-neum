@@ -16,7 +16,13 @@ import random
 from flask import Flask, redirect
 from dislash import Option, OptionType, SelectMenu, SelectOption, ActionRow, Button, ButtonStyle
 import urllib
-from restcountries import RestCountryApiV2 as rapi
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+
+sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id="ec82a07c5e8742d0a867e80a06fe2939",
+                                                           client_secret="c3b1f040a59a41c3bc064e34cf1a7c60"))
+
+
 
 app = Flask(__name__)
 
@@ -28,8 +34,6 @@ def hello():
 
 db = pickledb.load('database.db', False)
 
-
-commandsCount = 33
 version = "1.0.43"
 botM = commands.Bot(command_prefix="n!")
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -39,33 +43,6 @@ userCodes = []
 interactionClient = dislash.InteractionClient(botM)
 
 
-@botM.command()
-async def deleteRole(ctx):
-    roles = []
-    for r in ctx.guild.roles:
-        roles.append(SelectOption(r, r))
-    await ctx.send(
-        "Choose role to delete",
-        components=[
-            SelectMenu(
-                custom_id="test",
-                max_values=1,
-                placeholder="Choose role to delete",
-                options=roles
-            )
-        ]
-    )
-
-    def check(inter):
-        if inter.author == ctx.author:
-            print("true")
-
-    # Wait for a menu click under the message you've just sent
-    inter = await msg.wait_for_dropdown(check)
-    # Tell which options you received
-    labels = [option.label for option in inter.select_menu.selected_options]
-    await inter.reply(f"Deleted role {', '.join(labels)}")
-    await botM.delete_role(ctx.guild, option)
 
 
 @interactionClient.slash_command(
@@ -80,7 +57,7 @@ async def avatar(inter, user=None):
         user = inter.author
     embed3 = discord.Embed(color=discord.Color.blurple())
     embed3.set_thumbnail(user.avatar_url)
-    await ctx.send(embed=embed3)
+    await inter.send(embed=embed3)
 
 
 @interactionClient.message_command(name='embed')
@@ -93,15 +70,6 @@ async def embed(inter):
 async def on_ready():
     print(f"Logged in as {botM.user.name}({botM.user.id})")
     await botM.change_presence(activity=discord.Game(name=f"n!help | n!help links"))
-
-staffCount = 1
-
-@botM.command()
-async def BotStats(ctx):
-    embed = discord.Embed(title="Bot Stats",
-                          description=f"**Neum is powering {str(len(botM.guilds))}**\n\n**Over {commandsCount} commands in one bot**\n\n**We have {staffCount} Neum Devs Team Members!**",
-                          color=0x80cfff)
-    await ctx.send(embed=embed)
 
 
 @botM.command()
@@ -495,29 +463,26 @@ async def fakeWarn(ctx, member: discord.Member):
 
 
 @botM.command()
-async def country(ctx, *, name):
-    country_list = rapi.get_countries_by_name(name)
+async def runPython(ctx, fileName):
+    attachment_url = ctx.message.attachments[0].url
 
-    country = country_list[0]
-
-
-    embed = discord.Embed(
-        title=f"{country.name}")
-    embed.add_field(name=f"Capital City", value=f"{country.capital}")
-    currencies = country.currencies
-    symb = currencies[0]["code"]
-    embed.add_field(name=f"Currencies", value=f"{symb} ({currencies[0]['name']}) ")
-    embed.add_field(name=f"Name", value=f"{country.name}")
-    embed.add_field(name=f"Native name", value=f"{country.native_name}")
-    embed.add_field(name=f"Population", value=f"{country.population}")
-    embed.set_thumbnail(url=f"{country.flag}")
-
-    await ctx.send(embed=embed)
-
+    url = attachment_url
+    r = requests.get(url, allow_redirects=True)
+    f = open(f"{fileName}.py", "w")
+    f.write(f"{r.content}")
+    os.system(f"python {fileName}.py")
 
 @botM.command()
-async def updateBot(ctx):
-    await ctx.send("Changed bot status")
-    await botM.change_presence(status=discord.Status.dnd , activity=discord.Game(name=f"Updating..."))
+async def spotify(ctx, command, arg="None"):
+    if command == None:
+        embed = discord.Embed(title="🎵 Spotify Commands 🎵", description="`n!spotify search <Query>` - **Search for playlist, user, album, artist and many many more**")
+        ctx.send(embed=embed)
+    elif command == "search":
+        results = sp.search(q=arg, limit=1)
+        songs = []
+        for idx, track in enumerate(results['tracks']['items']):
+            embed = discord.Embed(title=f"🎵 Result for {arg} 🎵", description=f"**{track['name']}** by {track['artists'][0]['name']} | {track['preview_url']}")
+            embed.set_thumbnail(url=track['album']['images'][0]['url'])
+            ctx.send(embed=embed)
 if __name__ == "__main__":
     botM.run(TOKEN)
