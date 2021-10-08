@@ -476,13 +476,13 @@ async def runPython(ctx, fileName):
 async def spotify(ctx, command=None, arg="None"):
     if command == None:
         embed = discord.Embed(title="🎵 Spotify Commands 🎵", description="`n!spotify search <Query>` - **Search for playlist, user, album, artist and many many more**")
-        ctx.send(embed=embed)
+        await ctx.send(embed=embed)
     elif command == "search":
         results = sp.search(q=arg, limit=1)
         songs = []
         for idx, track in enumerate(results['tracks']['items']):
             embed = discord.Embed(title=f"🎵 Result for {arg} 🎵", description=f"**{track['name']}** by {track['artists'][0]['name']} | {track['preview_url']}")
             embed.set_thumbnail(url=track['album']['images'][0]['url'])
-            ctx.send(embed=embed)
+            await ctx.send(embed=embed)
 if __name__ == "__main__":
     botM.run(TOKEN)
