@@ -497,7 +497,7 @@ async def spotify(ctx, command=None, arg="None"):
                     return None
                 return fname[0]
 
-            url = 'http://google.com/favicon.ico'
+            url = track["preview_url"]
             r = requests.get(url, allow_redirects=True)
             filename = getFilename_fromCd(r.headers.get('content-disposition'))
             open(f"{filename}", 'wb').write(r.content)
