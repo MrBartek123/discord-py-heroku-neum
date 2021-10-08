@@ -482,26 +482,7 @@ async def spotify(ctx, command=None, arg="None"):
         results = sp.search(q=arg, limit=1)
         songs = []
         for idx, track in enumerate(results['tracks']['items']):
-            embed = discord.Embed(title=f"🎵 Result for {arg} 🎵", description=f"**{track['name']}** by {track['artists'][0]['name']}")
+            embed = discord.Embed(title=f"🎵 Result for {arg} 🎵", description=f"**{track['name']}** by {track['artists'][0]['name']} | [Preview sound here]({track['preview_url']})")
             embed.set_thumbnail(url=track['album']['images'][0]['url'])
-            url = track['preview_url']
-
-            def getFilename_fromCd(cd):
-                """
-                Get filename from content-disposition
-                """
-                if not cd:
-                    return None
-                fname = re.findall('filename=(.+)', cd)
-                if len(fname) == 0:
-                    return None
-                return fname[0]
-
-            url = track["preview_url"]
-            r = requests.get(url, allow_redirects=True)
-            filename = getFilename_fromCd(r.headers.get('content-disposition'))
-            open(f"{filename}", 'wb').write(r.content)
-            r = requests.get(url, allow_redirects=True)
-            await ctx.send(embed=embed, file=discord.File(filename))
 if __name__ == "__main__":
     botM.run(TOKEN)
