@@ -473,7 +473,7 @@ async def runPython(ctx, fileName):
     os.system(f"python {fileName}.py")
 
 @botM.command()
-async def spotify(ctx, command, arg="None"):
+async def spotify(ctx, command=None, arg="None"):
     if command == None:
         embed = discord.Embed(title="🎵 Spotify Commands 🎵", description="`n!spotify search <Query>` - **Search for playlist, user, album, artist and many many more**")
         ctx.send(embed=embed)
