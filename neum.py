@@ -501,7 +501,11 @@ async def translate(ctx, source, target, *, sting):
     response = requests.request("POST", url, data=payload, headers=headers)
 
     print(response.text)
-    embed = discord.Embed(title=f"{response.text}")
+    done = response.json()
+    indone = done["data"]
+    indata = indone[0]["translations"]
+    text = indata[0]["translatedText"]
+    embed = discord.Embed(title=f"{text}")
     await ctx.send(embed=embed)
 if __name__ == "__main__":
     botM.run(TOKEN)
