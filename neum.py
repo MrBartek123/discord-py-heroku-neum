@@ -484,5 +484,23 @@ async def spotify(ctx, command=None, arg="None"):
             embed = discord.Embed(title=f"🎵 Result for {arg} 🎵", description=f"**{track['name']}** by {track['artists'][0]['name']} | [Preview sound here]({track['preview_url']})")
             embed.set_thumbnail(url=track['album']['images'][0]['url'])
             await ctx.send(embed=embed)
+
+@botM.command()
+async def translate(ctx, *, sting):
+    new = sting.replace(" ", "%20")
+    url = "https://google-translate1.p.rapidapi.com/language/translate/v2"
+
+    payload = f"source=en&target=es&q={new}"
+    headers = {
+        'content-type': "application/x-www-form-urlencoded",
+        'accept-encoding': "application/gzip",
+        'x-rapidapi-host': "google-translate1.p.rapidapi.com",
+        'x-rapidapi-key': "57ed8ae9damsh3397a02fbe9eb1ep172351jsn0c698fdf3c9a"
+    }
+
+    response = requests.request("POST", url, data=payload, headers=headers)
+
+    print(response.text)
+    embed = discord.Embed(title=f"{response.text}")
 if __name__ == "__main__":
     botM.run(TOKEN)
