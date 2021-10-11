@@ -486,11 +486,11 @@ async def spotify(ctx, command=None, arg="None"):
             await ctx.send(embed=embed)
 
 @botM.command()
-async def translate(ctx, *, sting):
+async def translate(ctx, source, target, *, sting):
     new = sting.replace(" ", "%20")
     url = "https://google-translate1.p.rapidapi.com/language/translate/v2"
 
-    payload = f"source=en&target=es&q={new}"
+    payload = f"source={source}&target={target}&q={new}"
     headers = {
         'content-type': "application/x-www-form-urlencoded",
         'accept-encoding': "application/gzip",
@@ -502,5 +502,6 @@ async def translate(ctx, *, sting):
 
     print(response.text)
     embed = discord.Embed(title=f"{response.text}")
+    await ctx.send(embed=embed)
 if __name__ == "__main__":
     botM.run(TOKEN)
