@@ -132,14 +132,14 @@ async def prefix(ctx, *, prefix):
 
 
 @botM.command()
-async def weather(ctx, *, city=None):
+async def weather(ctx, *, city=None, lang="en"):
     if city == None:
         await ctx.send("Please enter city name")
     else:
         api_key = "42b32fd5efde7f044522e6cef8672adf"
         base_url = "http://api.openweathermap.org/data/2.5/weather?"
         city_name = city
-        complete_url = base_url + "appid=" + api_key + "&q=" + city_name
+        complete_url = base_url + "appid=" + api_key + "&q=" + city_name + "&lang=" + lang
         response = requests.get(complete_url)
         x = response.json()
         channel = ctx.message.channel
