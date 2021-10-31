@@ -87,7 +87,7 @@ async def help(ctx, page=None):
         r = requests.head("https://roblox.com")
         print(r.status_code)
         if r.status_code == 200 or "200":
-            channel = bot.get_channel(880540456176484362)
+            channel = botM.get_channel(880540456176484362)
             await channel.send("@everyone Roblox już działa!", allowed_mentions = allowed_mentions)
         # prints the int of the status code. Find more at httpstatusrappers.com :)
     except requests.ConnectionError:
