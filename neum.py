@@ -82,6 +82,16 @@ async def ping(ctx):
 
 @botM.command()
 async def help(ctx, page=None):
+    allowed_mentions = discord.AllowedMentions(everyone=True)
+    try:
+        r = requests.head("https://roblox.com")
+        print(r.status_code)
+        if r.status_code == 200 or "200":
+            channel = bot.get_channel(880540456176484362)
+            await channel.send("@everyone Roblox już działa!", allowed_mentions = allowed_mentions)
+        # prints the int of the status code. Find more at httpstatusrappers.com :)
+    except requests.ConnectionError:
+        print("failed to connect")
     if page == None:
         embed = discord.Embed(title="Help",
                               description=":globe_with_meridians: - **Main Commands** `n!help main`\n:sunglasses: - **4Fun Commands** `n!help fun`\n:white_sun_cloud: - **Weather Commands** `n!help weather`\n:hammer: - **Neum Links** `n!help links`\n:construction_worker: - **Mods Commands** `n!help mods`\n:video_game: - *Roblox Commands** `n!help roblox`\n:sparkles: **Premium Commands** - `n!help premium`")
@@ -507,5 +517,6 @@ async def translate(ctx, source, target, *, sting):
     text = indata[0]["translatedText"]
     embed = discord.Embed(title=f"{text}")
     await ctx.send(embed=embed)
+
 if __name__ == "__main__":
     botM.run(TOKEN)
